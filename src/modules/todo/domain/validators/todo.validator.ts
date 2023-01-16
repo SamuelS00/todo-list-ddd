@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IsBoolean, IsDate, IsIn, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator'
-import { ClassValidatorFields } from '../../../../@shared/validators/class-validator'
+import { ClassValidatorFields } from '../../../../@shared/domain/validators/class-validator'
 import { TodoProperties, Priority } from '../entities/todo'
 
 const operations = ['low', 'medium', 'high'] as const
