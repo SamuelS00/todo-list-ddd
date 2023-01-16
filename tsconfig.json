@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "module": "CommonJS",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2019",
+    "esModuleInterop": false,
+    "allowJs": true,
+    "strictNullChecks": true
+  },
+  "include": ["src/"]
+}
