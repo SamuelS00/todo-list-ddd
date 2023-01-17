@@ -129,6 +129,7 @@ describe('TodoValidator Tests', () => {
       },
       {
         ...todo,
+        priority: 'MEDIUM' as any,
         createdAt
       },
       {
