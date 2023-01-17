@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import UniqueEntityId from '../value-object/unique-entity-id.vo'
 
-export default abstract class Entity<T = any> {
+export default abstract class Entity<Props = any, JsonProps = Required<{ id: string } & Props>> {
   public readonly uniqueEntityId: UniqueEntityId
 
-  constructor (public readonly props: T, id?: UniqueEntityId) {
+  constructor (public readonly props: Props, id?: UniqueEntityId) {
     this.uniqueEntityId = id ?? new UniqueEntityId()
   }
 
@@ -12,10 +12,5 @@ export default abstract class Entity<T = any> {
     return this.uniqueEntityId.value
   }
 
-  toJSON (): Required<{ id: string } & T> {
-    return {
-      id: this.id,
-      ...this.props
-    } as Required<{ id: string } & T>
-  }
+  abstract toJSON (): JsonProps
 }
