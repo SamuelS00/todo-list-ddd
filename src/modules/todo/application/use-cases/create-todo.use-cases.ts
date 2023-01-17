@@ -1,8 +1,9 @@
 import TodoRepository from '../../../../modules/todo/domain/repository/todo.repository'
 import { Todo } from '../../../../modules/todo/domain/entities/todo'
 import { TodoOutput } from '../dto/todo-output.dto'
+import UseCase from '../../../../@shared/application/use-cases/use-case'
 
-export default class CreateTodoUseCase {
+export default class CreateTodoUseCase implements UseCase<Input, Output> {
   constructor (private readonly todoRepo: TodoRepository) { }
 
   async execute (input: Input): Promise<Output> {
