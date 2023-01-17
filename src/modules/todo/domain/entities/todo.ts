@@ -13,6 +13,8 @@ export interface TodoProperties {
   is_scratched?: boolean
 }
 
+export type TodoPropsJson = Required<{ id: string } & TodoProperties>
+
 export class Todo extends Entity<TodoProperties> {
   constructor (public readonly props: TodoProperties, id?: UniqueEntityId) {
     Todo.validate(props)
@@ -76,5 +78,16 @@ export class Todo extends Entity<TodoProperties> {
 
   get created_at (): Date | undefined {
     return this.props.created_at
+  }
+
+  toJSON (): TodoPropsJson {
+    return {
+      id: this.id.toString(),
+      title: this.title,
+      description: this.description,
+      priority: this.priority as Priority,
+      is_scratched: this.is_scratched as boolean,
+      created_at: this.created_at as Date
+    }
   }
 }
