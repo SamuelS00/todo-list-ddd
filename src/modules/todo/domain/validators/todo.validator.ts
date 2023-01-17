@@ -1,10 +1,27 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { IsBoolean, IsDate, IsIn, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator'
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+  Matches,
+  ValidateByOptions
+} from 'class-validator'
 import { ClassValidatorFields } from '../../../../@shared/domain/validators/class-validator'
 import { TodoProperties, Priority } from '../entities/todo'
 
-const operations = ['low', 'medium', 'high'] as const
+const PriorityMatches = (
+  validationOption?: ValidateByOptions
+): PropertyDecorator => Matches('^LOW|MEDIUM|HIGH$', 'i',
+  {
+    ...validationOption,
+    message: 'priority must be one of the following values: low, medium, high'
+  }
+)
 
 export class TodoRules {
   @MaxLength(40)
@@ -19,7 +36,7 @@ export class TodoRules {
   @IsOptional()
     description: string
 
-  @IsIn(operations)
+  @PriorityMatches()
   @IsString()
   @IsNotEmpty()
     priority: Priority
