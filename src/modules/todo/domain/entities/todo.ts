@@ -66,6 +66,10 @@ export class Todo extends Entity<TodoProperties> {
     this.props.description = value
   }
 
+  get priority (): string {
+    return this.props.priority
+  }
+
   get is_scratched (): boolean | undefined {
     return this.props.is_scratched
   }
