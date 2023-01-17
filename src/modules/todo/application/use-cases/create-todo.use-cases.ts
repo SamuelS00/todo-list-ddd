@@ -1,5 +1,6 @@
 import TodoRepository from '../../../../modules/todo/domain/repository/todo.repository'
 import { Todo } from '../../../../modules/todo/domain/entities/todo'
+import { TodoOutput } from '../dto/todo-output.dto'
 
 export default class CreateTodoUseCase {
   constructor (private readonly todoRepo: TodoRepository) { }
@@ -27,11 +28,4 @@ export interface Input {
   is_scratched?: boolean
 }
 
-export interface Output {
-  id: string
-  title: string
-  description?: string | null
-  priority: string
-  is_scratched?: boolean
-  created_at: Date
-}
+export interface Output extends TodoOutput {}
