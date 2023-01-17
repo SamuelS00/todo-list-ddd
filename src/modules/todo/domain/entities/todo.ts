@@ -8,7 +8,7 @@ export type Priority = 'low' | 'medium' | 'high'
 export interface TodoProperties {
   title: string
   description?: string
-  priority?: Priority
+  priority: Priority
   created_at?: Date
   is_scratched?: boolean
 }
