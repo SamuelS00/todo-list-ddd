@@ -2,7 +2,15 @@ import UniqueEntityId from '../value-object/unique-entity-id.vo'
 import Entity from './entity'
 import { validate as uuidValidate } from 'uuid'
 
-class StubEntity extends Entity<{ team_name: string, team_stadium: string }> {}
+class StubEntity extends Entity<{ team_name: string, team_stadium: string }> {
+  toJSON (): Required<{ id: string } & { team_name: string, team_stadium: string }> {
+    return {
+      id: this.id,
+      team_name: this.props.team_name,
+      team_stadium: this.props.team_stadium
+    }
+  }
+}
 
 describe('Entity Unit Tests', () => {
   it('should set props and id', () => {
