@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import UniqueEntityId from '../value-object/unique-entity-id.vo'
 
 export default abstract class Entity<Props = any, JsonProps = Required<{ id: string } & Props>> {
