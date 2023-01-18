@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
-
 import { SearchResult } from '../../../@shared/domain/repository/repository-contracts'
 import { PaginationOutputDto } from '../dtos/pagination-output.dto'
 
-export class PaginationOutputMapper {
-  static toOutput (
-    result: SearchResult
-  ): Omit<PaginationOutputDto, 'items'> {
+export const PaginationOutputMapper = {
+  toOutput: (result: SearchResult): Omit<PaginationOutputDto, 'items'> => {
     return {
       total: result.total,
       current_page: result.current_page,
