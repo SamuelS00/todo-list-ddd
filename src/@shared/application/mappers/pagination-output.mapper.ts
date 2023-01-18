@@ -4,7 +4,7 @@ import { SearchResult } from '../../../@shared/domain/repository/repository-cont
 import { PaginationOutputDto } from '../dtos/pagination-output.dto'
 
 export class PaginationOutputMapper {
-  static toPaginationOutput (
+  static toOutput (
     result: SearchResult
   ): Omit<PaginationOutputDto, 'items'> {
     return {
