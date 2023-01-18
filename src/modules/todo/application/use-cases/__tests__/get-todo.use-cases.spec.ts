@@ -1,6 +1,6 @@
 import { Todo } from '../../../../../modules/todo/domain/entities/todo'
 import NotFoundError from '../../../../../@shared/domain/errors/not-found-error'
-import TodoInMemoryRepository from '../../../../../modules/todo/infrastructure/todo-in-memory.repository'
+import TodoInMemoryRepository from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
 import GetTodoUseCase from '../get-todo.use-cases'
 
 describe('GetTodoUseCase Unit Tests', () => {
