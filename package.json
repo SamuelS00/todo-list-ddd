@@ -1,7 +1,10 @@
 {
   "scripts": {
     "test": "jest",
-    "test:coverage": "npm run test -- --coverage"
+    "test:coverage": "npm run test -- --coverage",
+    "ts-node": "ts-node",
+    "tsc": "tsc",
+    "tsc:check": "npm run tsc -- --noEmit"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.59",
