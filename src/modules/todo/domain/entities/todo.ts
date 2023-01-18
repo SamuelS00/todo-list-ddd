@@ -1,6 +1,6 @@
 import Entity from '../../../../@shared/domain/entity/entity'
 import UniqueEntityId from '../../../../@shared/domain/value-object/unique-entity-id.vo'
-import TodoValidatorFactory from '../validators/todo.validator'
+import { TodoValidatorFactory } from '../validators/todo.validator'
 import { EntityValidationError } from '../../../../@shared/domain/errors/invalid-validation-error'
 
 export type Priority = 'low' | 'medium' | 'high'
