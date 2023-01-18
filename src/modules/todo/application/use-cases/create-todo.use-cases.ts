@@ -1,5 +1,5 @@
-import { TodoRepository } from '../../../../modules/todo/domain/repository/todo.repository'
-import { Todo } from '../../../../modules/todo/domain/entities/todo'
+import { TodoRepository } from '../../domain/repository/todo.repository'
+import { Todo } from '../../domain/entities/todo'
 import { TodoOutput } from '../dtos/todo-output.dto'
 import UseCase from '../../../../@shared/application/use-cases/use-case'
 import { TodoOutputMapper } from '../mappers/todo-output.mapper'
