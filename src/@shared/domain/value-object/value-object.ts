@@ -14,16 +14,16 @@ export default abstract class ValueObject<Value = any> {
   toString = (): string => {
     if (typeof this.value !== 'object' || this.value === null) {
       try {
-        return this.value.toString()
+        this.value?.toString()
       } catch (e) {
-        return this.value + ''
+        return `${String(this.value)}`
       }
     }
 
-    const valueStr: string = this.value.toString()
+    const valueStr = this.value?.toString()
 
     return valueStr === '[object Object]'
       ? JSON.stringify(this.value)
-      : valueStr
+      : (valueStr as string)
   }
 }
