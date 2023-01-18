@@ -9,7 +9,12 @@
     "target": "ES2019",
     "esModuleInterop": false,
     "allowJs": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "@shared/*": [
+        "./@shared/*"
+      ]
+    }
   },
   "include": ["src/"]
 }

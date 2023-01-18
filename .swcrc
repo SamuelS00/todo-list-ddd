@@ -3,6 +3,12 @@
     "parser": {
       "syntax": "typescript",
       "decorators": true
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "@shared/*": [
+        "./@shared/*"
+      ]
     }
   }
 }
