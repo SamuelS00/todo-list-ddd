@@ -22,5 +22,3 @@ export namespace TodoRepository {
     exists: (name: string) => Promise<boolean>
   }
 }
-
-// export default TodoRepository
