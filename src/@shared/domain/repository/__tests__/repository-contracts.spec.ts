@@ -212,6 +212,10 @@ describe('Search Unit Tests', () => {
 
     test('Generics on Entity and Filter', () => {
       class FakeEntity extends Entity {
+        toJSON (): Required<any> {
+          throw new Error('Method not implemented.')
+        }
+
         constructor (
           public readonly name: string,
           public readonly price: number
