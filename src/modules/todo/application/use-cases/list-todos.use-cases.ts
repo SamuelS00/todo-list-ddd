@@ -19,7 +19,7 @@ export default class ListTodosUseCase implements UseCase<Input, Output> {
   private toOutput (searchResult: TodoRepository.SearchResult): Output {
     return {
       items: searchResult.items.map((i) => TodoOutputMapper.toOutput(i)),
-      ...PaginationOutputMapper.toPaginationOutput(searchResult)
+      ...PaginationOutputMapper.toOutput(searchResult)
     }
   }
 }
