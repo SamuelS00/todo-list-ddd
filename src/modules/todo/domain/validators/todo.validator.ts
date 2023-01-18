@@ -11,7 +11,7 @@ import {
   Matches,
   ValidateByOptions
 } from 'class-validator'
-import { ClassValidatorFields } from '../../../../@shared/domain/validators/class-validator'
+import { ClassValidatorFields } from '@shared/domain/validators/class-validator'
 import { TodoProperties, Priority } from '../entities/todo'
 
 const PriorityMatches = (

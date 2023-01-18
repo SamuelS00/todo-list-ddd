@@ -4,7 +4,7 @@ import {
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
   SearchableRepositoryInterface
-} from '../../../../@shared/domain/repository/repository-contracts'
+} from '@shared/domain/repository/repository-contracts'
 import { Todo } from '../entities/todo'
 
 export namespace TodoRepository {

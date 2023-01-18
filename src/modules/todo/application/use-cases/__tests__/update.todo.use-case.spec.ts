@@ -1,5 +1,5 @@
 import { Todo } from '../../../domain/entities/todo'
-import NotFoundError from '../../../../../@shared/domain/errors/not-found-error'
+import NotFoundError from '@shared/domain/errors/not-found-error'
 import TodoInMemoryRepository from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
 import UpdateTitleTodoUseCase from '../update-todo.use-cases'
 

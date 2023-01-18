@@ -1,9 +1,9 @@
 import { TodoRepository } from '../../domain/repository/todo.repository'
 import { TodoOutput } from '../dtos/todo-output.dto'
-import UseCase from '../../../../@shared/application/use-cases/use-case'
-import SearchInputDto from '../../../../@shared/application/dtos/search-input.dto'
-import { PaginationOutputDto } from '../../../../@shared/application/dtos/pagination-output.dto'
-import { PaginationOutputMapper } from '../../../../@shared/application/mappers/pagination-output.mapper'
+import UseCase from '@shared/application/use-cases/use-case'
+import SearchInputDto from '@shared/application/dtos/search-input.dto'
+import { PaginationOutputDto } from '@shared/application/dtos/pagination-output.dto'
+import { PaginationOutputMapper } from '@shared/application/mappers/pagination-output.mapper'
 import { TodoOutputMapper } from '../mappers/todo-output.mapper'
 
 export default class ListTodosUseCase implements UseCase<Input, Output> {

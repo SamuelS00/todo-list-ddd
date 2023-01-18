@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { SortDirection } from '../../../../../@shared/domain/repository/repository-contracts'
-import { InMemorySearchableRepository } from '../../../../../@shared/domain/repository/in-memory-searchable-repository'
+import { SortDirection } from '@shared/domain/repository/repository-contracts'
+import { InMemorySearchableRepository } from '@shared/domain/repository/in-memory-searchable-repository'
 import { Todo } from '../../../domain/entities/todo'
 import { TodoRepository } from '../../../domain/repository/todo.repository'
 
