@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import {
   IsBoolean,
   IsDate,
@@ -66,8 +66,8 @@ export class TodoValidator extends ClassValidatorFields<TodoRules> {
   }
 }
 
-export default class TodoValidatorFactory {
-  static create (): TodoValidator {
+export const TodoValidatorFactory = {
+  create: () => {
     return new TodoValidator()
   }
 }

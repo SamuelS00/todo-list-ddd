@@ -1,5 +1,5 @@
 import { TodoProperties } from '../entities/todo'
-import TodoValidatorFactory, { TodoRules, TodoValidator } from './todo.validator'
+import { TodoValidatorFactory, TodoRules, TodoValidator } from './todo.validator'
 
 describe('TodoValidator Tests', () => {
   let validator: TodoValidator = TodoValidatorFactory.create()

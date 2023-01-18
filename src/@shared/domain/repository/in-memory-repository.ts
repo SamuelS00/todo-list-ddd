@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import Entity from '../entity/entity'
 import NotFoundError from '../errors/not-found-error'
 import UniqueEntityId from '../value-object/unique-entity-id.vo'

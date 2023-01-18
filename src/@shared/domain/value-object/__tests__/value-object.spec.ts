@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { deepFreeze } from '../../utils/object'
 import ValueObject from '../value-object'
 
@@ -28,7 +27,7 @@ describe('ValueObject Unit Testes', () => {
 
     arrange.forEach((i) => {
       const vo = new StubValueObject(i.received)
-      expect(`${vo}`).toBe(i.expected)
+      expect(`${String(vo)}`).toBe(i.expected)
     })
   })
 

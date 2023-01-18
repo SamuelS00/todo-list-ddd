@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/dot-notation */
+
 import Entity from '../../entity/entity'
 import { InMemorySearchableRepository } from '../in-memory-searchable-repository'
 import { SearchParams, SearchResult } from '../repository-contracts'

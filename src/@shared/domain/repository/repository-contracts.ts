@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import Entity from '../entity/entity'
 import UniqueEntityId from '../value-object/unique-entity-id.vo'
 
@@ -102,7 +102,7 @@ export class SearchParams<Filter = string> {
     this._filter =
       value === null || value === undefined || value === ('' as unknown)
         ? null
-        : (`${value}` as any)
+        : (`${String(value)}` as any)
   }
 }
 

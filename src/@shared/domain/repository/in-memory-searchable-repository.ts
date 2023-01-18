@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import Entity from '../entity/entity'
 import { InMemoryRepository } from './in-memory-repository'
 import {
