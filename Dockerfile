@@ -1,5 +1,4 @@
 FROM node:16.14.2-slim
-# FROM node:14.15.4-slim
 
 RUN mkdir -p /usr/share/man/man1 && \
     echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/stretch-backports.list && \
