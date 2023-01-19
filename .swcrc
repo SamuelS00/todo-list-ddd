@@ -6,8 +6,11 @@
     },
     "baseUrl": "./src",
     "paths": {
-      "@shared/*": [
+      "#shared/*": [
         "./@shared/*"
+      ],
+      "#todo/*": [
+        "./modules/todo/*"
       ]
     }
   }

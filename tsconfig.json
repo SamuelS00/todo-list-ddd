@@ -11,10 +11,14 @@
     "allowJs": true,
     "strictNullChecks": true,
     "paths": {
-      "@shared/*": [
+      "#shared/*": [
         "./@shared/*"
+      ],
+      "#todo/*": [
+        "./modules/todo/*"
       ]
-    }
+    },
+    "declaration": true
   },
   "include": ["src/"]
 }
