@@ -1,4 +1,4 @@
-import { Todo } from '../../domain/entities/todo'
+import { Todo } from '#todo/domain/entities/todo'
 import { TodoOutputMapper } from './todo-output.mapper'
 
 describe('TodoOutputMapper Unit Tests', () => {

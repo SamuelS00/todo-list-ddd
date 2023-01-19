@@ -1,4 +1,4 @@
-import UniqueEntityId from '@shared/domain/value-object/unique-entity-id.vo'
+import UniqueEntityId from '#shared/domain/value-object/unique-entity-id.vo'
 import { Todo, TodoProperties } from './todo'
 
 describe('Todo Unit Tests', () => {
@@ -65,7 +65,7 @@ describe('Todo Unit Tests', () => {
     ]
 
     data.forEach((i: TodoData) => {
-      const todo = new Todo(i.props, i.id as any)
+      const todo = new Todo(i.props, i.id)
 
       expect(todo.id).not.toBeNull()
       expect(todo.uniqueEntityId).toBeInstanceOf(UniqueEntityId)

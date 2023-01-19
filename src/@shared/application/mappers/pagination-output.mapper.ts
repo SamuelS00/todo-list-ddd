@@ -1,4 +1,4 @@
-import { SearchResult } from '../../../@shared/domain/repository/repository-contracts'
+import { SearchResult } from '#shared/domain/repository/repository-contracts'
 import { PaginationOutputDto } from '../dtos/pagination-output.dto'
 
 export const PaginationOutputMapper = {

@@ -1,4 +1,4 @@
-import { Todo } from '../../domain/entities/todo'
+import { Todo } from '#todo/domain/entities/todo'
 import { TodoOutput } from '../dtos/todo-output.dto'
 
 export const TodoOutputMapper = {

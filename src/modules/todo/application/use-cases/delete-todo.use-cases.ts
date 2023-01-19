@@ -1,5 +1,5 @@
-import { TodoRepository } from '../../domain/repository/todo.repository'
-import UseCase from '@shared/application/use-cases/use-case'
+import { TodoRepository } from '#todo/domain/repository/todo.repository'
+import UseCase from '#shared/application/use-cases/use-case'
 
 export default class DeleteTodoUseCase implements UseCase<Input, void> {
   constructor (private readonly todoRepo: TodoRepository.Repository) {}

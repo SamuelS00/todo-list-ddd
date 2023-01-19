@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
-import { Todo } from '../../../domain/entities/todo'
-import TodoInMemoryRepository from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
-import { TodoRepository } from '../../../domain/repository/todo.repository'
+import { Todo } from '#todo/domain/entities/todo'
+import TodoInMemoryRepository from '#todo/infrastructure/db/in-memory/todo-in-memory.repository'
+import { TodoRepository } from '#todo/domain/repository/todo.repository'
 import ListTodosUseCase from '../list-todos.use-cases'
 
 describe('ListTodosUseCase Unit Tests', () => {

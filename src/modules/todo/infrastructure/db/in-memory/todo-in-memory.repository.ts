@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { SortDirection } from '@shared/domain/repository/repository-contracts'
-import { InMemorySearchableRepository } from '@shared/domain/repository/in-memory-searchable-repository'
-import { Todo } from '../../../domain/entities/todo'
-import { TodoRepository } from '../../../domain/repository/todo.repository'
+import { SortDirection } from '#shared/domain/repository/repository-contracts'
+import { InMemorySearchableRepository } from '#shared/domain/repository/in-memory-searchable-repository'
+import { Todo } from '#todo/domain/entities/todo'
+import { TodoRepository } from '#todo/domain/repository/todo.repository'
 
 export default class TodoInMemoryRepository
   extends InMemorySearchableRepository<Todo>
@@ -34,7 +34,7 @@ export default class TodoInMemoryRepository
     sort_dir: SortDirection | null
   ): Promise<Todo[]> {
     return (sort == null)
-      ? await super.applySort(items, 'created_at', 'desc')
-      : await super.applySort(items, sort, sort_dir)
+      ? super.applySort(items, 'created_at', 'desc')
+      : super.applySort(items, sort, sort_dir)
   }
 }

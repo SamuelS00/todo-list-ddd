@@ -4,8 +4,8 @@ import {
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
   SearchableRepositoryInterface
-} from '@shared/domain/repository/repository-contracts'
-import { Todo } from '../entities/todo'
+} from '#shared/domain/repository/repository-contracts'
+import { Todo } from '#todo/domain/entities/todo'
 
 export namespace TodoRepository {
   export type Filter = string

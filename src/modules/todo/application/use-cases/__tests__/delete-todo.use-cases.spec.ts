@@ -1,6 +1,6 @@
-import { Todo } from '../../../domain/entities/todo'
-import NotFoundError from '@shared/domain/errors/not-found-error'
-import TodoInMemoryRepository from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
+import { Todo } from '#todo/domain/entities/todo'
+import NotFoundError from '#shared/domain/errors/not-found-error'
+import TodoInMemoryRepository from '#todo/infrastructure/db/in-memory/todo-in-memory.repository'
 import DeleteTodoUseCase from '../delete-todo.use-cases'
 
 describe('DeleteTodoUseCase Unit Tests', () => {

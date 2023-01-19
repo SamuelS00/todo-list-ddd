@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
-import { Todo } from '../../../domain/entities/todo'
+import { Todo } from '#todo/domain/entities/todo'
 import TodoInMemoryRepository from './todo-in-memory.repository'
 
 describe('TodoInMemoryRepository', () => {
