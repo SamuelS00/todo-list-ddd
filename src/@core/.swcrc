@@ -1,0 +1,13 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "#shared/*": ["./@shared/*"],
+      "#todo/*": ["./todo/*"]
+    }
+  }
+}
