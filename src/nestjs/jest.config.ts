@@ -17,7 +17,6 @@ export default {
     "**/*.(t|j)s"
   ],
   coverageDirectory: "../coverage",
-  testEnvironment: "node",
   moduleNameMapper: {
     'todo\\-list/(.*)$': '<rootDir>/../../../node_modules/todo-list/dist/$1'
   }
