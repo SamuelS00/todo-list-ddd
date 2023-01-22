@@ -7,10 +7,10 @@ export type Priority = 'low' | 'medium' | 'high'
 
 export interface TodoProperties {
   title: string
-  description?: string
   priority: Priority
-  created_at?: Date
+  description?: string
   is_scratched?: boolean
+  created_at?: Date
 }
 
 export type TodoPropsJson = Required<{ id: string } & TodoProperties>
