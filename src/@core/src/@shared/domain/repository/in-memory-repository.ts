@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { Entity } from '../entity/entity'
 import { NotFoundError } from '../errors/not-found-error'
 import { UniqueEntityId } from '../value-object/unique-entity-id.vo'
@@ -11,7 +13,7 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
   }
 
   async findById (id: string | UniqueEntityId): Promise<E> {
-    const _id = id.toString()
+    const _id = `${id}`
     const item = await this._get(_id)
     return item
   }
@@ -27,14 +29,14 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
   }
 
   async delete (id: string | UniqueEntityId): Promise<void> {
-    const _id = id.toString()
+    const _id = `${id}`
     await this._get(_id)
     const indexFound = this.items.findIndex(item => item.id === _id)
     this.items.splice(indexFound, 1)
   }
 
   protected async _get (id: string): Promise<E> {
-    const _id = id.toString()
+    const _id = `${id}`
     const item = this.items.find(item => item.id === _id)
 
     if (item === undefined) {
