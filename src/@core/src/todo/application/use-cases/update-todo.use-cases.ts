@@ -5,7 +5,7 @@ import { TodoOutput } from '../dtos/todo-output.dto'
 import { TodoOutputMapper } from '../mappers/todo-output.mapper'
 import { TodoRepository } from '../../domain/repository/todo.repository'
 
-export namespace UpdateTitleTodoUseCase {
+export namespace UpdateTodoUseCase {
   export class UseCase implements DefaultUseCase<Input, Output> {
     constructor (private readonly todoRepo: TodoRepository.Repository) { }
 
@@ -13,7 +13,7 @@ export namespace UpdateTitleTodoUseCase {
       const entity = await this.todoRepo.findById(input.id)
 
       entity.changeTitle(input.title)
-      entity.changeDescription(input.description as string)
+      entity.changeDescription(input.description ?? entity.description)
 
       if (input.is_scratched === true) {
         entity.completeTask()
@@ -40,4 +40,4 @@ export namespace UpdateTitleTodoUseCase {
   export interface Output extends TodoOutput {}
 }
 
-export default UpdateTitleTodoUseCase
+export default UpdateTodoUseCase
