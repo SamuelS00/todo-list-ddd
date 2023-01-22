@@ -9,14 +9,11 @@ import {
   SortDirection
 } from '../repository/repository-contracts'
 
-export abstract class InMemorySearchableRepository<
-    E extends Entity,
-    Filter = string
-  >
+export abstract class InMemorySearchableRepository<E extends Entity>
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, Filter> {
+  implements SearchableRepositoryInterface<E> {
   sortableFields: string[] = []
-  async search (props: SearchParams<Filter>): Promise<SearchResult<E, Filter>> {
+  async search (props: SearchParams): Promise<SearchResult<E>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter)
 
     const itemsSorted = await this.applySort(
@@ -44,7 +41,7 @@ export abstract class InMemorySearchableRepository<
 
   protected abstract applyFilter (
     items: E[],
-    filter: Filter | null
+    filter: string | null
   ): Promise<E[]>
 
   protected async applySort (
