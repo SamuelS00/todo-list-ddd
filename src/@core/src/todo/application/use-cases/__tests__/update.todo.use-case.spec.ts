@@ -1,15 +1,15 @@
 import { Todo } from '../../../domain/entities/todo'
 import { TodoInMemoryRepository } from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
-import { UpdateTitleTodoUseCase } from '../update-todo.use-cases'
+import { UpdateTodoUseCase } from '../update-todo.use-cases'
 import { NotFoundError } from '../../../../@shared/domain/errors/not-found-error'
 
 describe('UpdateTodoUseCase Unit Tests', () => {
   let repository: TodoInMemoryRepository
-  let useCase: UpdateTitleTodoUseCase.UseCase
+  let useCase: UpdateTodoUseCase.UseCase
 
   beforeEach(() => {
     repository = new TodoInMemoryRepository()
-    useCase = new UpdateTitleTodoUseCase.UseCase(repository)
+    useCase = new UpdateTodoUseCase.UseCase(repository)
   })
 
   it('should throws error when entity not found', async () => {
@@ -33,7 +33,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
     })
     expect(spyUpdate).toHaveBeenCalledTimes(1)
     expect(output).toStrictEqual({
-      id: entity.id,
+      id: entity.id.toString(),
       title: 'test',
       description: 'Description not defined',
       priority: 'low',
@@ -85,75 +85,75 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           id: entity.id,
           title: 'test',
           priority: 'low',
-          description: 'Description not defined',
+          description: 'some description',
           is_scratched: false,
           created_at: entity.created_at as Date
         }
-      }// ,
-    //   {
-    //     input: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       is_scratched: false
-    //     },
-    //     expected: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       description: 'Description not defined',
-    //       is_scratched: false,
-    //       created_at: entity.created_at as Date
-    //     }
-    //   },
-    //   {
-    //     input: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low'
-    //     },
-    //     expected: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       description: 'Description not defined',
-    //       is_scratched: false,
-    //       created_at: entity.created_at as Date
-    //     }
-    //   },
-    //   {
-    //     input: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       is_scratched: true
-    //     },
-    //     expected: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       description: 'Description not defined',
-    //       is_scratched: true,
-    //       created_at: entity.created_at as Date
-    //     }
-    //   },
-    //   {
-    //     input: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       description: 'some description',
-    //       is_scratched: false
-    //     },
-    //     expected: {
-    //       id: entity.id,
-    //       title: 'test',
-    //       priority: 'low',
-    //       description: 'some description',
-    //       is_scratched: false,
-    //       created_at: entity.created_at as Date
-    //     }
-    //   }
+      },
+      {
+        input: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          is_scratched: false
+        },
+        expected: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          description: 'some description',
+          is_scratched: false,
+          created_at: entity.created_at as Date
+        }
+      },
+      {
+        input: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low'
+        },
+        expected: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          description: 'some description',
+          is_scratched: false,
+          created_at: entity.created_at as Date
+        }
+      },
+      {
+        input: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          is_scratched: true
+        },
+        expected: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          description: 'some description',
+          is_scratched: true,
+          created_at: entity.created_at as Date
+        }
+      },
+      {
+        input: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          description: 'some description',
+          is_scratched: false
+        },
+        expected: {
+          id: entity.id,
+          title: 'test',
+          priority: 'low',
+          description: 'some description',
+          is_scratched: false,
+          created_at: entity.created_at as Date
+        }
+      }
     ]
 
     for (const i of arrange) {
