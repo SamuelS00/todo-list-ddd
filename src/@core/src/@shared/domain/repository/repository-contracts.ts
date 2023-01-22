@@ -124,7 +124,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
   readonly last_page: number
   readonly sort: string | null
   readonly sort_dir: string | null
-  readonly filter: Filter | null
+  readonly filter: Filter
 
   constructor (props: SearchResultProps<E, Filter>) {
     this.items = props.items
@@ -134,7 +134,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
     this.last_page = Math.ceil(this.total / this.per_page)
     this.sort = props.sort
     this.sort_dir = props.sort_dir
-    this.filter = props.filter
+    this.filter = props.filter as Filter
   }
 
   toJSON (): object {
@@ -154,7 +154,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
 export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
-  SearchInput = SearchParams<Filter>,
+  SearchInput = SearchParams,
   SearchOutput = SearchResult<E, Filter>
 > extends RepositoryInterface<E> {
   sortableFields: string[]
