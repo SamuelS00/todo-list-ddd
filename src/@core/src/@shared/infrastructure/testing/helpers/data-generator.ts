@@ -13,6 +13,9 @@ export const DataGenerator = {
   text (): string {
     return DataGenerator.lib.paragraph()
   },
+  sentence (): string {
+    return DataGenerator.lib.sentence()
+  },
   date (): Date {
     return DataGenerator.lib.date()
   }
