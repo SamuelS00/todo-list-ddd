@@ -38,7 +38,7 @@ describe('SequelizeModelFactory Unit Tests', () => {
 
   test('create method', async () => {
     let model = await StubModel.factory().create()
-    console.log(model)
+
     expect(uuidValidate(model.id)).toBeTruthy()
     expect(model.id).not.toBeNull()
     expect(model.title).not.toBeNull()
