@@ -5,7 +5,7 @@ import { TodoSequelize } from '../todo-sequelize'
 
 const { TodoModel } = TodoSequelize
 
-describe('TodoModel Unit Tests', () => {
+describe('TodoModel Integration Tests', () => {
   setupSequelize({ models: [TodoModel] })
 
   test('mapping attributes', () => {

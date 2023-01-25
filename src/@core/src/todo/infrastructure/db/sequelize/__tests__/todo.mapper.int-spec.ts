@@ -6,7 +6,7 @@ import { TodoSequelize } from '../todo-sequelize'
 
 const { TodoModel, TodoModelMapper } = TodoSequelize
 
-describe('TodoMapper Unit Test', () => {
+describe('TodoMapper Integration Test', () => {
   setupSequelize({ models: [TodoModel] })
 
   it('should throw error when todo is invalid', async () => {

@@ -9,7 +9,7 @@ import { genPriorityOption } from '#shared/infrastructure/testing/helpers/genera
 
 const { TodoSequelizeRepository, TodoModel, TodoModelMapper } = TodoSequelize
 
-describe('TodoSequelizeRepository Unit Tests', () => {
+describe('TodoSequelizeRepository Integration Tests', () => {
   setupSequelize({ models: [TodoModel] })
   let repository = new TodoSequelizeRepository(TodoModel)
 
@@ -52,6 +52,7 @@ describe('TodoSequelizeRepository Unit Tests', () => {
     await expect(repository.findById('fake id')).rejects.toThrow(
       new NotFoundError('Entity not found using ID fake id')
     )
+
     await expect(
       repository.findById('312cffad-1938-489e-a706-643dc9a3cfd3')
     ).rejects.toThrow(
@@ -82,6 +83,51 @@ describe('TodoSequelizeRepository Unit Tests', () => {
     const entities = await repository.findAll()
     expect(entities).toHaveLength(1)
     expect(JSON.stringify(entities)).toBe(JSON.stringify([entity]))
+  })
+
+  it('should throw error on update when a entity not found', async () => {
+    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    await expect(repository.update(entity)).rejects.toThrow(
+      new NotFoundError(
+        `Entity not found using ID ${entity.id}`
+      )
+    )
+  })
+
+  it('should update a entity', async () => {
+    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    await repository.insert(entity)
+
+    entity.changeDescription('movie updated')
+    await repository.update(entity)
+
+    const entityFound = await repository.findById(entity.id)
+    expect(entity.toJSON()).toStrictEqual(entityFound.toJSON())
+  })
+
+  it('should throw error on delete when a entity not found', async () => {
+    await expect(repository.delete('fake id')).rejects.toThrow(
+      new NotFoundError('Entity not found using ID fake id')
+    )
+
+    await expect(
+      repository.delete('312cffad-1938-489e-a706-643dc9a3cfd3')
+    ).rejects.toThrow(
+      new NotFoundError(
+        'Entity not found using ID 312cffad-1938-489e-a706-643dc9a3cfd3'
+      )
+    )
+  })
+
+  it('should delete a entity', async () => {
+    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    await repository.insert(entity)
+
+    await repository.delete(entity.id)
+    const entityFound = await TodoModel.findByPk(
+      entity.id
+    )
+    expect(entityFound).toBeNull()
   })
 
   describe('search method tests', () => {
@@ -150,7 +196,6 @@ describe('TodoSequelizeRepository Unit Tests', () => {
       const items = [...searchOutput.items].reverse()
 
       items.forEach((item, index) => {
-        console.log(item.title, index, item.created_at)
         expect(`${item.title}${index + 1}`)
       })
     })
