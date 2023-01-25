@@ -124,11 +124,18 @@ export namespace TodoSequelize {
     }
 
     async update (entity: Todo): Promise<void> {
-      throw new Error('Method not implemented.')
+      await this._get(entity.id)
+      await this.todoModel.update(entity.toJSON(), {
+        where: { id: entity.id }
+      })
     }
 
     async delete (id: string | UniqueEntityId): Promise<void> {
-      throw new Error('Method not implemented.')
+      const _id = `${id}`
+      await this._get(_id)
+      void this.todoModel.destroy({
+        where: { id: _id }
+      })
     }
 
     private async _get (id: string): Promise<TodoModel> {
