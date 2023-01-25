@@ -9,6 +9,7 @@ import { Model, Column, DataType, PrimaryKey, Table } from 'sequelize-typescript
 import { Op } from 'sequelize'
 import { SequelizeModelFactory } from '#shared/infrastructure/sequelize/sequelize-model.factory'
 import { genPriorityOption } from '#shared/infrastructure/testing/helpers/generate-priority-option'
+import { DataGenerator } from '#shared/infrastructure/testing/helpers/data-generator'
 
 export namespace TodoSequelize {
   interface TodosModelProperties {
@@ -42,15 +43,14 @@ export namespace TodoSequelize {
     declare created_at: Date
 
     static factory (): SequelizeModelFactory<TodoModel, TodosModelProperties> {
-      const chance: Chance.Chance = require('chance')
       return new SequelizeModelFactory<TodoModel, TodosModelProperties>(
         TodoModel, () => ({
-          id: chance.guid({ version: 4 }),
-          title: chance.word(),
+          id: DataGenerator.uuid(),
+          title: DataGenerator.word(),
           priority: genPriorityOption(),
-          description: chance.sentence({ words: 5 }),
+          description: DataGenerator.sentence(),
           is_scratched: false,
-          created_at: chance.date()
+          created_at: DataGenerator.date()
         }))
     }
   }
@@ -63,6 +63,7 @@ export namespace TodoSequelize {
         return new Todo(otherData, new UniqueEntityId(id))
       } catch (err) {
         if (err instanceof EntityValidationError) {
+          console.log(err)
           throw new LoadEntityError(err.error)
         }
 
