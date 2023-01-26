@@ -50,14 +50,14 @@ describe('TodoSequelizeRepository Integration Tests', () => {
 
   it('should throw an error when entity has not been found', async () => {
     await expect(repository.findById('fake id')).rejects.toThrow(
-      new NotFoundError('Entity not found using ID fake id')
+      new NotFoundError('Entity Not Found using ID fake id')
     )
 
     await expect(
       repository.findById('312cffad-1938-489e-a706-643dc9a3cfd3')
     ).rejects.toThrow(
       new NotFoundError(
-        'Entity not found using ID 312cffad-1938-489e-a706-643dc9a3cfd3'
+        'Entity Not Found using ID 312cffad-1938-489e-a706-643dc9a3cfd3'
       )
     )
   })
@@ -89,7 +89,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
     const entity = new Todo({ title: 'supermarket', priority: 'low' })
     await expect(repository.update(entity)).rejects.toThrow(
       new NotFoundError(
-        `Entity not found using ID ${entity.id}`
+        `Entity Not Found using ID ${entity.id}`
       )
     )
   })
@@ -107,14 +107,14 @@ describe('TodoSequelizeRepository Integration Tests', () => {
 
   it('should throw error on delete when a entity not found', async () => {
     await expect(repository.delete('fake id')).rejects.toThrow(
-      new NotFoundError('Entity not found using ID fake id')
+      new NotFoundError('Entity Not Found using ID fake id')
     )
 
     await expect(
       repository.delete('312cffad-1938-489e-a706-643dc9a3cfd3')
     ).rejects.toThrow(
       new NotFoundError(
-        'Entity not found using ID 312cffad-1938-489e-a706-643dc9a3cfd3'
+        'Entity Not Found using ID 312cffad-1938-489e-a706-643dc9a3cfd3'
       )
     )
   })
