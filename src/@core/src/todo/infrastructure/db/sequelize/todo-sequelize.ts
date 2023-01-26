@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { UniqueEntityId } from '#shared/domain/value-object/unique-entity-id.vo'
-import { EntityValidationError, LoadEntityError, NotFoundError } from '#shared/domain/errors'
-import { Todo, Priority } from '#todo/domain/entities/todo'
-import { TodoRepository } from '#todo/domain/repository'
+import { UniqueEntityId } from '../../../../@shared/domain/value-object/unique-entity-id.vo'
+import { EntityValidationError } from '../../../../@shared/domain/errors/invalid-validation-error'
+import { LoadEntityError } from '../../../../@shared/domain/errors/load-entity.error'
+import { NotFoundError } from '../../../../@shared/domain/errors/not-found-error'
+import { Todo, Priority } from '../../../../todo/domain/entities/todo'
+import { TodoRepository } from '../../../../todo/domain/repository'
 import { Model, Column, DataType, PrimaryKey, Table } from 'sequelize-typescript'
 import { Op } from 'sequelize'
-import { SequelizeModelFactory } from '#shared/infrastructure/sequelize/sequelize-model.factory'
-import { genPriorityOption } from '#shared/infrastructure/testing/helpers/generate-priority-option'
-import { DataGenerator } from '#shared/infrastructure/testing/helpers/data-generator'
+import { SequelizeModelFactory } from '../../../../@shared/infrastructure/sequelize/sequelize-model.factory'
+import { genPriorityOption } from '../../../../@shared/infrastructure/testing/helpers/generate-priority-option'
+import { DataGenerator } from '../../../../@shared/infrastructure/testing/helpers/data-generator'
 
 export namespace TodoSequelize {
   interface TodosModelProperties {
