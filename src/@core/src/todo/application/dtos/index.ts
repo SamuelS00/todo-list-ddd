@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './todo-output.dto'
+export * from './todo-output.dto';
