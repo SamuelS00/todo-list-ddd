@@ -1,9 +1,10 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
+import { configTest } from '../../config'
 
 const sequelizeOptions: SequelizeOptions = {
-  dialect: 'sqlite',
-  host: ':memory:',
-  logging: false
+  dialect: configTest.db.vendor,
+  host: configTest.db.host,
+  logging: configTest.db.logging
 }
 
 export function setupSequelize (options: SequelizeOptions = {}): { sequelize: Sequelize } {
