@@ -46,7 +46,7 @@ export namespace TodoSequelize {
       return new SequelizeModelFactory<TodoModel, TodosModelProperties>(
         TodoModel, () => ({
           id: DataGenerator.uuid(),
-          title: DataGenerator.word(),
+          title: DataGenerator.word({ length: 6 }),
           priority: genPriorityOption(),
           description: DataGenerator.sentence(),
           is_scratched: false,
@@ -63,7 +63,7 @@ export namespace TodoSequelize {
         return new Todo(otherData, new UniqueEntityId(id))
       } catch (err) {
         if (err instanceof EntityValidationError) {
-          console.log(err)
+          // console.log(err)
           throw new LoadEntityError(err.error)
         }
 
@@ -141,7 +141,7 @@ export namespace TodoSequelize {
 
     private async _get (id: string): Promise<TodoModel> {
       return await this.todoModel.findByPk(id, {
-        rejectOnEmpty: new NotFoundError(`Entity not found using ID ${id}`)
+        rejectOnEmpty: new NotFoundError(`Entity Not Found using ID ${id}`)
       })
     }
   }
