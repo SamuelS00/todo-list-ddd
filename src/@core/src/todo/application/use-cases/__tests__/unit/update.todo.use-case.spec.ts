@@ -1,7 +1,7 @@
-import { Todo } from '../../../domain/entities/todo'
-import { TodoInMemoryRepository } from '../../../infrastructure/db/in-memory/todo-in-memory.repository'
-import { UpdateTodoUseCase } from '../update-todo.use-cases'
-import { NotFoundError } from '../../../../@shared/domain/errors/not-found-error'
+import { Todo } from '../../../../domain/entities/todo'
+import { TodoInMemoryRepository } from '../../../../infrastructure/db/in-memory/todo-in-memory.repository'
+import { UpdateTodoUseCase } from '../../update-todo.use-cases'
+import { NotFoundError } from '../../../../../@shared/domain/errors/not-found-error'
 
 describe('UpdateTodoUseCase Unit Tests', () => {
   let repository: TodoInMemoryRepository
