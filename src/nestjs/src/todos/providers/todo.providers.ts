@@ -7,13 +7,28 @@ import {
   ListTodosUseCase,
   UpdateTodoUseCase,
 } from 'todo-list/todo/application';
-import { TodoInMemoryRepository } from 'todo-list/todo/infrastructure';
+import {
+  TodoInMemoryRepository,
+  TodoSequelize,
+} from 'todo-list/todo/infrastructure';
+import { getModelToken } from '@nestjs/sequelize';
 
 export namespace TODO_PROVIDERS {
   export namespace REPOSITORIES {
     export const TODO_IN_MEMORY_REPOSITORY = {
       provide: 'TodoInMemoryRepository',
       useClass: TodoInMemoryRepository,
+    };
+    export const TODO_SEQUELIZE_REPOSITORY = {
+      provide: 'TodoSequelizeRepository',
+      useFactory: (todoModel: typeof TodoSequelize.TodoModel) => {
+        return new TodoSequelize.TodoSequelizeRepository(todoModel);
+      },
+      inject: [getModelToken(TodoSequelize.TodoModel)],
+    };
+    export const TODO_REPOSITORY = {
+      provide: 'TodoRepository',
+      useExisting: 'TodoSequelizeRepository',
     };
   }
 
