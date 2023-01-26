@@ -1,7 +1,9 @@
-import chance from 'chance'
+import { Chance } from 'chance'
+
+const lib = Chance()
 
 export const DataGenerator = {
-  lib: chance(),
+  lib,
   uuid (): string {
     return DataGenerator.lib.guid({ version: 4 })
   },
