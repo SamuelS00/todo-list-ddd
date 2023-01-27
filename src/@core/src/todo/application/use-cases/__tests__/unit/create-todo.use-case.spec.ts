@@ -20,7 +20,7 @@ describe('CreateTodoUseCase Unit Tests', () => {
     expect(output).toStrictEqual({
       id: repository.items[0].id,
       title: 'Buy a Book',
-      description: 'Description not defined',
+      description: null,
       priority: 'high',
       is_scratched: false,
       created_at: repository.items[0].created_at

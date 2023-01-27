@@ -38,7 +38,7 @@ describe('TodoModel Integration Tests', () => {
     expect(attributesMap.description).toMatchObject({
       field: 'description',
       fieldName: 'description',
-      allowNull: false,
+      allowNull: true,
       type: DataType.TEXT()
     })
 

@@ -18,7 +18,7 @@ export namespace TodoSequelize {
     id: string
     title: string
     priority: Priority
-    description: string
+    description: string | null
     is_scratched: boolean
     created_at: Date
   }
@@ -35,7 +35,7 @@ export namespace TodoSequelize {
     @Column({ allowNull: false, type: DataType.STRING(255) })
     declare priority: string
 
-    @Column({ allowNull: false, type: DataType.TEXT })
+    @Column({ allowNull: true, type: DataType.TEXT })
     declare description: string
 
     @Column({ allowNull: false, type: DataType.BOOLEAN })

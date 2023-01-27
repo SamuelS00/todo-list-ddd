@@ -35,7 +35,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
     expect(output).toStrictEqual({
       id: entity.id.toString(),
       title: 'test',
-      description: 'Description not defined',
+      description: null,
       priority: 'low',
       is_scratched: false,
       created_at: entity.created_at
@@ -72,7 +72,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           description: 'some description',
           priority: 'low',
           is_scratched: false,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       },
       {
@@ -87,7 +87,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           priority: 'low',
           description: 'some description',
           is_scratched: false,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       },
       {
@@ -103,7 +103,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           priority: 'low',
           description: 'some description',
           is_scratched: false,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       },
       {
@@ -118,7 +118,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           priority: 'low',
           description: 'some description',
           is_scratched: false,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       },
       {
@@ -134,7 +134,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           priority: 'low',
           description: 'some description',
           is_scratched: true,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       },
       {
@@ -151,7 +151,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           priority: 'low',
           description: 'some description',
           is_scratched: false,
-          created_at: entity.created_at as Date
+          created_at: entity.created_at
         }
       }
     ]

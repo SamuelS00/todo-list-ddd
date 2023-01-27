@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+import { EntityValidationError } from '#shared/domain'
 import { UniqueEntityId } from '../../../@shared/domain/value-object/unique-entity-id.vo'
 import { Todo, TodoProperties } from './todo'
 
 describe('Todo Unit Tests', () => {
-  beforeEach(() => {
-    Todo.validate = jest.fn()
-  })
-
-  it('constructor of todo', () => {
+  test('constructor of todo', () => {
     const createdAt = new Date()
 
     let todo = new Todo({
@@ -16,7 +14,7 @@ describe('Todo Unit Tests', () => {
     })
     expect(todo.props).toStrictEqual({
       title: 'Supermarket',
-      description: 'Description not defined',
+      description: null,
       priority: 'medium',
       created_at: createdAt,
       is_scratched: false
@@ -44,7 +42,6 @@ describe('Todo Unit Tests', () => {
       created_at: createdAt
     })
     expect(todo.description).toBe('Summary of the book such, chapter 3.')
-    expect(Todo.validate).toHaveBeenCalled()
   })
 
   it('should have an id', () => {
@@ -60,6 +57,7 @@ describe('Todo Unit Tests', () => {
 
     const data: TodoData[] = [
       { props },
+      { props, id: null as any },
       { props, id: undefined },
       { props, id: new UniqueEntityId() }
     ]
@@ -72,21 +70,116 @@ describe('Todo Unit Tests', () => {
     })
   })
 
-  it('getter of the props', () => {
+  test('getter and setter of name and priority prop', () => {
+    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+    expect(todo.title).toBe('supermarket')
+    expect(todo.priority).toBe('low')
+
+    todo['title'] = 'Supermarket'
+    expect(todo.title).toBe('Supermarket')
+    expect(todo.priority).toBe('low')
+  })
+
+  test('getter and setter of description prop', () => {
+    const changeDescription = (todo: Todo, data: any): void =>
+      (todo['description'] = data)
+
+    const inputs = [
+      { value: undefined, expected: null },
+      { value: null, expected: null },
+      { value: 'some description', expected: 'some description' },
+      {
+        value: undefined,
+        change: (todo: Todo) => {
+          changeDescription(todo, 'other description')
+        },
+        expected: 'other description'
+      },
+      {
+        value: 'some description',
+        change: (todo: Todo) => {
+          changeDescription(todo, undefined)
+        },
+        expected: null
+      },
+      {
+        value: 'some description',
+        change: (todo: Todo) => {
+          changeDescription(todo, null)
+        },
+        expected: null
+      }
+    ] as any[]
+
+    inputs.forEach(({ value, change, expected }) => {
+      const todo = new Todo({
+        title: 'Supermarket',
+        priority: 'low',
+        description: value
+      })
+
+      if (change !== undefined) {
+        change(todo)
+      }
+
+      expect(todo.description).toBe(expected)
+    })
+  })
+
+  test('getter and setter of is_active prop', () => {
+    const inputs = [
+      { value: undefined, expected: false },
+      { value: null, expected: false },
+      { value: true, expected: true },
+      { value: false, expected: false }
+    ]
+
+    inputs.forEach(({ value, expected }) => {
+      const todo = new Todo({
+        title: 'supermarket',
+        priority: 'low',
+        is_scratched: value as any
+      })
+      expect(todo.is_scratched).toBe(expected)
+    })
+  })
+
+  test('getter of created_at prop', () => {
+    let todo = new Todo({
+      title: 'supermarket',
+      priority: 'low'
+    })
+
+    expect(todo.created_at).toBeInstanceOf(Date)
+
     const createdAt = new Date()
 
-    const todo: TodoProperties = {
-      title: 'Supermarket',
-      description: 'Get mayonnaise and coffee',
-      priority: 'medium',
+    todo = new Todo({
+      title: 'supermarket',
+      priority: 'low',
       created_at: createdAt
-    }
-
-    expect(todo.title).toBe('Supermarket')
-    expect(todo.description).toBe('Get mayonnaise and coffee')
-    expect(todo.priority).toBe('medium')
-    expect(todo.is_scratched).toBeFalsy()
+    })
     expect(todo.created_at).toBe(createdAt)
+  })
+
+  it('should update the todo transforming description to null when it is undefined', () => {
+    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+
+    todo.changeDescription(undefined as any)
+    expect(todo.title).toBe('supermarket')
+    expect(todo.description).toBeNull()
+  })
+
+  it('should throw an error update with a invalid title', () => {
+    const invalidNames = [undefined, null, 0, '']
+
+    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+
+    invalidNames.forEach((invalidName: any) => {
+      expect(() => {
+        todo.changeTitle(invalidName)
+      }).toThrow(EntityValidationError)
+    })
   })
 
   it('should change title attribute', () => {
@@ -95,13 +188,26 @@ describe('Todo Unit Tests', () => {
       priority: 'medium'
     })
 
-    expect(Todo.validate).toHaveBeenCalledTimes(1)
     expect(todo.title).toBe('Supermarket')
 
     todo.changeTitle('Other title')
-
-    expect(Todo.validate).toHaveBeenCalledTimes(2)
     expect(todo.title).toBe('Other title')
+  })
+
+  it('should throw an error update with a invalid description', () => {
+    const invalidDescriptions = [0, '']
+
+    const todo = new Todo({
+      title: 'supermarket',
+      priority: 'low',
+      description: 'Pay with debit card'
+    })
+
+    invalidDescriptions.forEach((invalidDescription: any) => {
+      expect(() => {
+        todo.changeDescription(invalidDescription)
+      }).toThrow(EntityValidationError)
+    })
   })
 
   it('should change description attribute', () => {
@@ -111,12 +217,9 @@ describe('Todo Unit Tests', () => {
       description: 'Get mayonnaise and coffee'
     })
 
-    expect(Todo.validate).toHaveBeenCalledTimes(1)
     expect(todo.description).toBe('Get mayonnaise and coffee')
 
     todo.changeDescription('Other description')
-
-    expect(Todo.validate).toHaveBeenCalledTimes(2)
     expect(todo.description).toBe('Other description')
   })
 

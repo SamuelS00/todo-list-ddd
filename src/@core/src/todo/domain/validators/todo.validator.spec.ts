@@ -9,6 +9,15 @@ describe('TodoValidator Tests', () => {
   })
 
   test('invalidation cases for title field', () => {
+    expect({ validator, data: { title: undefined } }).containsErrorMessages({
+      title: [
+        'title should not be empty',
+        'title must be a string',
+        'title must be longer than or equal to 3 characters',
+        'title must be shorter than or equal to 40 characters'
+      ]
+    })
+
     expect({ validator, data: { title: null } }).containsErrorMessages({
       title: [
         'title should not be empty',

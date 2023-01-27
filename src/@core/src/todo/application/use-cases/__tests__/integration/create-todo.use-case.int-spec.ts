@@ -26,7 +26,7 @@ describe('CreateTodoUseCase Integration Tests', () => {
     expect(output).toStrictEqual({
       id: entity.id,
       title: 'Buy a Book',
-      description: 'Description not defined',
+      description: null,
       priority: 'high',
       is_scratched: false,
       created_at: entity.created_at
@@ -52,7 +52,6 @@ describe('CreateTodoUseCase Integration Tests', () => {
     output = await useCase.execute({
       title: 'Supermarket',
       priority: 'high',
-      description: 'Description not defined',
       is_scratched: false
     })
 
@@ -61,7 +60,7 @@ describe('CreateTodoUseCase Integration Tests', () => {
     expect(output).toStrictEqual({
       id: entity.id,
       title: 'Supermarket',
-      description: 'Description not defined',
+      description: null,
       priority: 'high',
       is_scratched: false,
       created_at: entity.created_at

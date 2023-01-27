@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { Entity } from '../../../@shared/domain/entity/entity'
 import { UniqueEntityId } from '../../../@shared/domain/value-object/unique-entity-id.vo'
 import { TodoValidatorFactory } from '../validators'
@@ -8,7 +10,7 @@ export type Priority = 'low' | 'medium' | 'high'
 export interface TodoProperties {
   title: string
   priority: Priority
-  description?: string
+  description?: string | null
   is_scratched?: boolean
   created_at?: Date
 }
@@ -19,9 +21,9 @@ export class Todo extends Entity<TodoProperties> {
   constructor (public readonly props: TodoProperties, id?: UniqueEntityId) {
     Todo.validate(props)
     super(props, id)
-    this.props.description = this.description
-    this.props.is_scratched = this.is_scratched ?? false
-    this.props.created_at = this.created_at ?? new Date()
+    this.description = this.props.description
+    this.is_scratched = this.props.is_scratched
+    this.created_at = this.props.created_at
   }
 
   changeTitle (newTitle: string): void {
@@ -60,24 +62,35 @@ export class Todo extends Entity<TodoProperties> {
     this.props.title = value
   }
 
-  get description (): string {
-    return this.props.description ?? 'Description not defined'
+  get description () {
+    return this.props.description ?? null
   }
 
-  private set description (value: string) {
-    this.props.description = value
+  private set description (value: any) {
+    this.props.description = typeof value !== 'string'
+      ? null
+      : value
   }
 
   get priority (): string {
     return this.props.priority
   }
 
-  get is_scratched (): boolean | undefined {
-    return this.props.is_scratched
+  get is_scratched (): boolean {
+    return this.props.is_scratched as boolean
   }
 
-  get created_at (): Date | undefined {
-    return this.props.created_at
+  private set is_scratched (value: boolean | undefined) {
+    this.props.is_scratched = value ?? false
+  }
+
+  get created_at (): Date {
+    return this.props.created_at as Date
+  }
+
+  private set created_at (value: Date | undefined) {
+    const date = value ?? new Date()
+    this.props.created_at = date
   }
 
   toJSON (): TodoPropsJson {
@@ -86,8 +99,8 @@ export class Todo extends Entity<TodoProperties> {
       title: this.title,
       description: this.description,
       priority: this.priority as Priority,
-      is_scratched: this.is_scratched as boolean,
-      created_at: this.created_at as Date
+      is_scratched: this.is_scratched,
+      created_at: this.created_at
     }
   }
 }
