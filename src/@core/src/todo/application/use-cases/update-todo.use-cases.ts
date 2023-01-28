@@ -4,6 +4,7 @@ import { UseCase as DefaultUseCase } from '../../../@shared/application/use-case
 import { TodoOutput } from '../dtos/todo-output.dto'
 import { TodoOutputMapper } from '../mappers/todo-output.mapper'
 import { TodoRepository } from '../../domain/repository/todo.repository'
+import { PriorityType } from '../../domain/entities/priority-type.vo'
 
 export namespace UpdateTodoUseCase {
   export class UseCase implements DefaultUseCase<Input, Output> {
@@ -14,6 +15,10 @@ export namespace UpdateTodoUseCase {
 
       entity.changeTitle(input.title)
       entity.changeDescription(input.description ?? entity.description)
+
+      if (input.priority !== undefined && typeof input.priority === 'number') {
+        entity.changePriority(PriorityType.createByCode(input.priority))
+      }
 
       if (input.is_scratched === true) {
         entity.completeTask()
@@ -33,7 +38,7 @@ export namespace UpdateTodoUseCase {
     id: string
     title: string
     description?: string
-    priority?: 'low' | 'medium' | 'high'
+    priority?: number
     is_scratched?: boolean
   }
 
