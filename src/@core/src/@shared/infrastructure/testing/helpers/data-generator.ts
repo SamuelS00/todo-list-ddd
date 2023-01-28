@@ -15,6 +15,9 @@ export const DataGenerator = {
   text (): string {
     return DataGenerator.lib.paragraph()
   },
+  integer (min: number, max: number): number {
+    return DataGenerator.lib.integer({ min, max })
+  },
   sentence (): string {
     return DataGenerator.lib.sentence()
   },
