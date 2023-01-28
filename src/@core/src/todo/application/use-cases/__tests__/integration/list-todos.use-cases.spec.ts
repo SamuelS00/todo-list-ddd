@@ -2,7 +2,6 @@ import { ListTodosUseCase } from '../../list-todos.use-cases'
 import { TodoSequelize } from '#todo/infrastructure/db/sequelize/todo-sequelize'
 import { setupSequelize } from '#shared/infrastructure/testing/helpers/db'
 import { DataGenerator } from '#shared/infrastructure/testing/helpers/data-generator'
-import { genPriorityOption } from '#shared/infrastructure/testing/helpers/generate-priority-option'
 
 const { TodoModel, TodoSequelizeRepository, TodoModelMapper } = TodoSequelize
 
@@ -22,7 +21,7 @@ describe('ListTodosUseCase Integration Tests', () => {
       return {
         id: DataGenerator.uuid(),
         title: `Todo ${index}`,
-        priority: genPriorityOption(),
+        priority: DataGenerator.integer(1, 3),
         description: DataGenerator.sentence(),
         is_scratched: false,
         created_at: new Date(new Date().getTime() + index)
