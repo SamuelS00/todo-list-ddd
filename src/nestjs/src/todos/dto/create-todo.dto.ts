@@ -1,9 +1,9 @@
 import { CreateTodoUseCase } from 'todo-list/todo/application';
-import { Priority } from 'todo-list/todo/domain';
+// import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTodoDto implements CreateTodoUseCase.Input {
   title: string;
-  priority: Priority;
+  priority: number;
   description?: string;
   is_scratched?: boolean;
 }
