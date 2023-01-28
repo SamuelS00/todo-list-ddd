@@ -8,7 +8,7 @@ describe('TodoInMemoryRepository', () => {
 
   beforeEach(() => (repository = new TodoInMemoryRepository()))
   it('should no filter items when filter object is null', async () => {
-    const items = [new Todo({ title: 'test', priority: 'low' })]
+    const items = [new Todo({ title: 'test' })]
     const filterSpy = jest.spyOn(items, 'filter' as any)
 
     const itemsFiltered = await repository['applyFilter'](items, null as any)
@@ -18,9 +18,9 @@ describe('TodoInMemoryRepository', () => {
 
   it('should filter items using filter parameter', async () => {
     const items = [
-      new Todo({ title: 'test', priority: 'low' }),
-      new Todo({ title: 'TEST', priority: 'low' }),
-      new Todo({ title: 'fake', priority: 'low' })
+      new Todo({ title: 'test' }),
+      new Todo({ title: 'TEST' }),
+      new Todo({ title: 'fake' })
     ]
     const filterSpy = jest.spyOn(items, 'filter' as any)
 
@@ -34,17 +34,14 @@ describe('TodoInMemoryRepository', () => {
     const items = [
       new Todo({
         title: 'test',
-        priority: 'low',
         created_at: createdAt
       }),
       new Todo({
         title: 'TEST',
-        priority: 'low',
         created_at: new Date(createdAt.getTime() + 100)
       }),
       new Todo({
         title: 'fake',
-        priority: 'low',
         created_at: new Date(createdAt.getTime() + 200)
       })
     ]
@@ -55,9 +52,9 @@ describe('TodoInMemoryRepository', () => {
 
   it('should sort by title', async () => {
     const items = [
-      new Todo({ title: 'caa', priority: 'low' }),
-      new Todo({ title: 'baa', priority: 'low' }),
-      new Todo({ title: 'aaa', priority: 'low' })
+      new Todo({ title: 'caa' }),
+      new Todo({ title: 'baa' }),
+      new Todo({ title: 'aaa' })
     ]
 
     let itemsSorted = await repository['applySort'](items, 'title', 'asc')

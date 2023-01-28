@@ -1,5 +1,4 @@
 import { setupSequelize } from '#shared/infrastructure/testing/helpers/db'
-import { genPriorityOption } from '#shared/infrastructure/testing/helpers/generate-priority-option'
 import { DataType } from 'sequelize-typescript'
 import { TodoSequelize } from '../todo-sequelize'
 
@@ -35,6 +34,13 @@ describe('TodoModel Integration Tests', () => {
       type: DataType.STRING(255)
     })
 
+    expect(attributesMap.priority).toMatchObject({
+      field: 'priority',
+      fieldName: 'priority',
+      allowNull: false,
+      type: DataType.INTEGER()
+    })
+
     expect(attributesMap.description).toMatchObject({
       field: 'description',
       fieldName: 'description',
@@ -62,7 +68,7 @@ describe('TodoModel Integration Tests', () => {
       id: '22c7bbc8-b798-481e-b9fd-5bacd3c235c6',
       title: 'Supermarket',
       description: 'Description not defined',
-      priority: genPriorityOption(),
+      priority: 2,
       is_scratched: false,
       created_at: new Date()
     }

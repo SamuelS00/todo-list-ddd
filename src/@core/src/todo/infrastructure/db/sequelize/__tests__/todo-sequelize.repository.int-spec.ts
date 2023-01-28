@@ -5,7 +5,6 @@ import { TodoRepository } from '#todo/domain/repository/todo.repository'
 import { setupSequelize } from '#shared/infrastructure/testing/helpers/db'
 import { DataGenerator } from '#shared/infrastructure/testing/helpers/data-generator'
 import { TodoSequelize } from '../todo-sequelize'
-import { genPriorityOption } from '#shared/infrastructure/testing/helpers/generate-priority-option'
 
 const { TodoSequelizeRepository, TodoModel, TodoModelMapper } = TodoSequelize
 
@@ -18,7 +17,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should insert a new entity', async () => {
-    let entity = new Todo({ title: 'Supermarket', priority: 'low' })
+    let entity = new Todo({ title: 'Supermarket' })
 
     void repository.insert(entity)
 
@@ -27,7 +26,6 @@ describe('TodoSequelizeRepository Integration Tests', () => {
 
     entity = new Todo({
       title: 'Gym',
-      priority: 'low',
       description: 'new description',
       is_scratched: false,
       created_at: new Date()
@@ -40,7 +38,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should find an entity', async () => {
-    const entity = new Todo({ title: 'Supermarket', priority: 'low' })
+    const entity = new Todo({ title: 'Supermarket' })
 
     void repository.insert(entity)
 
@@ -63,7 +61,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should find an entity by Id', async () => {
-    const entity = new Todo({ title: 'Supermarket', priority: 'low' })
+    const entity = new Todo({ title: 'Supermarket' })
     await repository.insert(entity)
 
     let entityFound = await repository.findById(entity.id)
@@ -74,10 +72,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should return all todos', async () => {
-    const entity = new Todo({
-      title: 'supermarket',
-      priority: 'low'
-    })
+    const entity = new Todo({ title: 'supermarket' })
 
     await repository.insert(entity)
     const entities = await repository.findAll()
@@ -86,7 +81,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should throw error on update when a entity not found', async () => {
-    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    const entity = new Todo({ title: 'supermarket' })
     await expect(repository.update(entity)).rejects.toThrow(
       new NotFoundError(
         `Entity Not Found using ID ${entity.id}`
@@ -95,7 +90,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should update a entity', async () => {
-    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    const entity = new Todo({ title: 'supermarket' })
     await repository.insert(entity)
 
     entity.changeDescription('movie updated')
@@ -120,7 +115,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   })
 
   it('should delete a entity', async () => {
-    const entity = new Todo({ title: 'supermarket', priority: 'low' })
+    const entity = new Todo({ title: 'supermarket' })
     await repository.insert(entity)
 
     await repository.delete(entity.id)
@@ -133,16 +128,18 @@ describe('TodoSequelizeRepository Integration Tests', () => {
   describe('search method tests', () => {
     it('should only apply paginate when other params are null', async () => {
       const createdAt = new Date()
+
       await TodoModel.factory()
         .count(16)
         .bulkCreate(() => ({
           id: DataGenerator.uuid(),
           title: 'Supermarket',
-          priority: 'medium',
+          priority: 2,
           description: 'Description not defined',
           is_scratched: false,
           created_at: createdAt
         }))
+
       const spyToEntity = jest.spyOn(TodoModelMapper, 'toEntity')
 
       const searchOutput = await repository.search(
@@ -167,7 +164,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
       expect(items).toMatchObject(
         new Array(15).fill({
           title: 'Supermarket',
-          priority: 'medium',
+          priority: 2,
           description: 'Description not defined',
           is_scratched: false,
           created_at: createdAt
@@ -183,7 +180,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
         .bulkCreate((index) => ({
           id: DataGenerator.uuid(),
           title: `Supermarket${index}`,
-          priority: 'medium',
+          priority: 2,
           description: 'Description not defined',
           is_scratched: false,
           created_at: new Date(createdAt.getTime() + 100 + index)
@@ -202,7 +199,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
 
     it('should apply paginate and filter', async () => {
       const defaultProps = {
-        priority: genPriorityOption(),
+        priority: 2,
         description: 'Description not defined',
         is_scratched: true,
         created_at: new Date()
@@ -261,7 +258,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
     it('should apply paginate and sort', async () => {
       expect(repository.sortableFields).toStrictEqual(['title', 'created_at'])
       const defaultProps = {
-        priority: genPriorityOption(),
+        priority: 2,
         description: 'Description not defined',
         is_scratched: false,
         created_at: new Date()
@@ -365,7 +362,7 @@ describe('TodoSequelizeRepository Integration Tests', () => {
 
     describe('should search using filter, sort and paginate', () => {
       const defaultProps = {
-        priority: genPriorityOption(),
+        priority: 2,
         description: 'Description not defined',
         is_scratched: false,
         created_at: new Date()

@@ -1,3 +1,4 @@
+import { PriorityType } from '#todo/domain/entities/priority-type.vo'
 import { Todo } from '../../domain/entities/todo'
 import { TodoOutputMapper } from './todo-output.mapper'
 
@@ -8,7 +9,7 @@ describe('TodoOutputMapper Unit Tests', () => {
     const entity = new Todo({
       title: 'Supermarket',
       description: 'get juice, chicken and oils',
-      priority: 'low',
+      priority: PriorityType.createByCode(1),
       created_at: createdAt
     })
 
@@ -19,7 +20,7 @@ describe('TodoOutputMapper Unit Tests', () => {
       id: entity.id,
       title: 'Supermarket',
       description: 'get juice, chicken and oils',
-      priority: 'low',
+      priority: 1,
       is_scratched: false,
       created_at: createdAt
     })

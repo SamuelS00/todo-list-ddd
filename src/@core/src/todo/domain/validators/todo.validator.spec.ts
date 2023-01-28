@@ -1,5 +1,15 @@
+import { PriorityType } from '../entities/priority-type.vo'
 import { TodoProperties } from '../entities/todo'
 import { TodoValidatorFactory, TodoRules, TodoValidator } from './todo.validator'
+
+class Stub {
+  item: string
+  price: number
+  constructor (item: string, price: number) {
+    this.item = item
+    this.price = price
+  }
+}
 
 describe('TodoValidator Tests', () => {
   let validator: TodoValidator = TodoValidatorFactory.create()
@@ -77,27 +87,56 @@ describe('TodoValidator Tests', () => {
     })
   })
 
-  test('invalidation cases for priority field', () => {
-    expect({ validator, data: { priority: null } }).containsErrorMessages({
-      priority: [
-        'priority should not be empty',
-        'priority must be a string',
-        'priority must be one of the following values: low, medium, high'
-      ]
-    })
+  describe('invalidation cases for priority field', () => {
+    const arrange = [
+      {
+        data: {
+          priority: null
+        },
+        message: {
+          priority: [
+            'priority must be an instance of PriorityType',
+            'priority should not be empty',
+            'priority must be a non-empty object'
+          ]
+        }
+      },
+      {
+        data: {
+          priority: {}
+        },
+        message: {
+          priority: [
+            'priority must be an instance of PriorityType',
+            'priority must be a non-empty object'
+          ]
+        }
+      },
+      {
+        data: {
+          priority: 5
+        },
+        message: {
+          priority: [
+            'priority must be an instance of PriorityType',
+            'priority must be a non-empty object'
+          ]
+        }
+      },
+      {
+        data: {
+          priority: new Stub('item', 10)
+        },
+        message: {
+          priority: [
+            'priority must be an instance of PriorityType'
+          ]
+        }
+      }
+    ]
 
-    expect({ validator, data: { priority: '' } }).containsErrorMessages({
-      priority: [
-        'priority should not be empty',
-        'priority must be one of the following values: low, medium, high'
-      ]
-    })
-
-    expect({ validator, data: { priority: 5 } }).containsErrorMessages({
-      priority: [
-        'priority must be a string',
-        'priority must be one of the following values: low, medium, high'
-      ]
+    test.each(arrange)('invalidate %# %o - team field', (i) => {
+      expect({ validator, data: i.data }).containsErrorMessages(i.message)
     })
   })
 
@@ -123,10 +162,10 @@ describe('TodoValidator Tests', () => {
 
   test('valid cases for fields', () => {
     const createdAt = new Date()
+    const priorityLow = PriorityType.createLow()
 
     const todo: TodoProperties = {
-      title: 'Supermarket',
-      priority: 'medium'
+      title: 'Supermarket'
     }
 
     const arrange = [
@@ -138,7 +177,7 @@ describe('TodoValidator Tests', () => {
       },
       {
         ...todo,
-        priority: 'MEDIUM' as any,
+        priority: priorityLow,
         createdAt
       },
       {

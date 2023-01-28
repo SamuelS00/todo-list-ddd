@@ -5,19 +5,20 @@ import { UniqueEntityId } from '../../../../@shared/domain/value-object/unique-e
 import { EntityValidationError } from '../../../../@shared/domain/errors/invalid-validation-error'
 import { LoadEntityError } from '../../../../@shared/domain/errors/load-entity.error'
 import { NotFoundError } from '../../../../@shared/domain/errors/not-found-error'
-import { Todo, Priority } from '../../../../todo/domain/entities/todo'
+import { Todo } from '../../../../todo/domain/entities/todo'
 import { TodoRepository } from '../../../../todo/domain/repository'
 import { Model, Column, DataType, PrimaryKey, Table } from 'sequelize-typescript'
 import { Op } from 'sequelize'
 import { SequelizeModelFactory } from '../../../../@shared/infrastructure/sequelize/sequelize-model.factory'
-import { genPriorityOption } from '../../../../@shared/infrastructure/testing/helpers/generate-priority-option'
 import { DataGenerator } from '../../../../@shared/infrastructure/testing/helpers/data-generator'
+import { PriorityType } from '#todo/domain/entities/priority-type.vo'
+import { PriorityError } from '#todo/domain/errors/priority-type.error'
 
 export namespace TodoSequelize {
   interface TodosModelProperties {
     id: string
     title: string
-    priority: Priority
+    priority: number
     description: string | null
     is_scratched: boolean
     created_at: Date
@@ -32,8 +33,8 @@ export namespace TodoSequelize {
     @Column({ allowNull: false, type: DataType.STRING(255) })
     declare title: string
 
-    @Column({ allowNull: false, type: DataType.STRING(255) })
-    declare priority: string
+    @Column({ allowNull: false, type: DataType.INTEGER() })
+    declare priority: number
 
     @Column({ allowNull: true, type: DataType.TEXT })
     declare description: string
@@ -49,7 +50,7 @@ export namespace TodoSequelize {
         TodoModel, () => ({
           id: DataGenerator.uuid(),
           title: DataGenerator.word({ length: 6 }),
-          priority: genPriorityOption(),
+          priority: DataGenerator.integer(1, 3),
           description: DataGenerator.sentence(),
           is_scratched: false,
           created_at: DataGenerator.date()
@@ -59,14 +60,24 @@ export namespace TodoSequelize {
 
   export const TodoModelMapper = {
     toEntity (model: TodoModel): Todo {
-      const { id, ...otherData } = model.toJSON()
+      const {
+        id,
+        priority: code,
+        ...otherData
+      } = model.toJSON()
 
       try {
-        return new Todo(otherData, new UniqueEntityId(id))
+        return new Todo(
+          { ...otherData, priority: PriorityType.createByCode(code) },
+          new UniqueEntityId(id)
+        )
       } catch (err) {
         if (err instanceof EntityValidationError) {
-          // console.log(err)
           throw new LoadEntityError(err.error)
+        }
+
+        if (err instanceof PriorityError) {
+          throw new PriorityError(err.message)
         }
 
         throw err
@@ -94,7 +105,7 @@ export namespace TodoSequelize {
           where: { title: { [Op.like]: `%${props.filter}%` } }
         }),
         ...((props.sort != null) && this.sortableFields.includes(props.sort)
-          ? { order: [[props.sort, props.sort_dir as Priority]] }
+          ? { order: [[props.sort, props.sort_dir as string]] }
           : { order: [['created_at', 'DESC']] }),
         offset,
         limit

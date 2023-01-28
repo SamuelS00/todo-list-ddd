@@ -1,8 +1,9 @@
 import { UniqueEntityId } from '#shared/domain/value-object/unique-entity-id.vo'
-import { LoadEntityError } from '#shared/domain/errors/load-entity.error'
 import { Todo } from '#todo/domain/entities/todo'
 import { setupSequelize } from '#shared/infrastructure/testing/helpers/db'
 import { TodoSequelize } from '../todo-sequelize'
+import { PriorityType } from '#todo/domain/entities/priority-type.vo'
+import { PriorityError } from '#todo/domain/errors/priority-type.error'
 
 const { TodoModel, TodoModelMapper } = TodoSequelize
 
@@ -18,15 +19,8 @@ describe('TodoMapper Integration Test', () => {
       TodoModelMapper.toEntity(model)
       fail('The todo has not throw a LoadEntityError')
     } catch (err) {
-      expect(err).toBeInstanceOf(LoadEntityError)
-      expect(err.error).toMatchObject({
-        title: [
-          'title should not be empty',
-          'title must be a string',
-          'title must be longer than or equal to 3 characters',
-          'title must be shorter than or equal to 40 characters'
-        ]
-      })
+      expect(err).toBeInstanceOf(PriorityError)
+      expect(err.message).toBe('code must be either 1 for low, 2 for medium or 3 for high')
     }
   })
 
@@ -37,7 +31,8 @@ describe('TodoMapper Integration Test', () => {
       .mockImplementation(() => { throw error })
 
     const model = TodoModel.build({
-      id: '312cffad-1938-489e-a706-643dc9a3cfd3'
+      id: '312cffad-1938-489e-a706-643dc9a3cfd3',
+      priority: 2
     } as any)
 
     expect(() => TodoModelMapper.toEntity(model)).toThrow(error)
@@ -50,7 +45,7 @@ describe('TodoMapper Integration Test', () => {
     const model = TodoModel.build({
       id: '5490020a-e866-4229-9adc-aa44b83234c4',
       title: 'Supermarket',
-      priority: 'low',
+      priority: 2,
       description: 'some description',
       is_scratched: false,
       created_at: createdAt
@@ -61,7 +56,7 @@ describe('TodoMapper Integration Test', () => {
       new Todo(
         {
           title: 'Supermarket',
-          priority: 'low',
+          priority: PriorityType.createByCode(2),
           description: 'some description',
           is_scratched: false,
           created_at: createdAt

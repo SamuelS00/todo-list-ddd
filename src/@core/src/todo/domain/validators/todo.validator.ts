@@ -3,25 +3,17 @@
 import {
   IsBoolean,
   IsDate,
+  IsInstance,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsOptional,
   IsString,
   MaxLength,
-  MinLength,
-  Matches,
-  ValidateByOptions
+  MinLength
 } from 'class-validator'
 import { ClassValidatorFields } from '../../../@shared/domain/validators/class-validator'
-import { TodoProperties, Priority } from '../entities/todo'
-
-const PriorityMatches = (
-  validationOption?: ValidateByOptions
-): PropertyDecorator => Matches('^LOW|MEDIUM|HIGH$', 'i',
-  {
-    ...validationOption,
-    message: 'priority must be one of the following values: low, medium, high'
-  }
-)
+import { PriorityType } from '../entities/priority-type.vo'
+import { TodoProperties } from '../entities/todo'
 
 export class TodoRules {
   @MaxLength(40)
@@ -36,10 +28,11 @@ export class TodoRules {
   @IsOptional()
     description: string
 
-  @PriorityMatches()
-  @IsString()
+  @IsNotEmptyObject()
   @IsNotEmpty()
-    priority: Priority
+  @IsInstance(PriorityType)
+  @IsOptional()
+    priority: PriorityType
 
   @IsDate()
   @IsOptional()
