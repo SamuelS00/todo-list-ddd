@@ -27,14 +27,16 @@ describe('UpdateTodoUseCase Integration Tests', () => {
 
     let output = await useCase.execute({
       id: model.id,
-      title: 'supermarket'
+      title: 'supermarket',
+      description: 'description',
+      priority: 2
     })
 
     expect(output).toStrictEqual({
       id: model.id,
       title: 'supermarket',
-      description: model.description,
-      priority: model.priority,
+      description: 'description',
+      priority: 2,
       is_scratched: false,
       created_at: model.created_at
     })
@@ -43,7 +45,7 @@ describe('UpdateTodoUseCase Integration Tests', () => {
       input: {
         id: string
         title: string
-        priority?: string
+        priority?: number
         description?: null | string
         is_scratched?: boolean
       }
@@ -51,7 +53,7 @@ describe('UpdateTodoUseCase Integration Tests', () => {
         id: string
         title: string
         description: null | string
-        priority?: string
+        priority?: number
         is_scratched: boolean
         created_at: Date
       }
@@ -62,13 +64,14 @@ describe('UpdateTodoUseCase Integration Tests', () => {
         input: {
           id: model.id,
           title: 'test',
-          description: 'some description'
+          description: 'some description',
+          priority: 3
         },
         expected: {
           id: model.id,
           title: 'test',
           description: 'some description',
-          priority: model.priority,
+          priority: 3,
           is_scratched: false,
           created_at: model.created_at
         }
@@ -77,13 +80,14 @@ describe('UpdateTodoUseCase Integration Tests', () => {
         input: {
           id: model.id,
           title: 'test',
-          description: model.description
+          description: model.description,
+          priority: 2
         },
         expected: {
           id: model.id,
           title: 'test',
           description: model.description,
-          priority: model.priority,
+          priority: 2,
           is_scratched: false,
           created_at: model.created_at
         }
@@ -98,7 +102,7 @@ describe('UpdateTodoUseCase Integration Tests', () => {
           id: model.id,
           title: 'test',
           description: model.description,
-          priority: model.priority,
+          priority: 2,
           is_scratched: true,
           created_at: model.created_at
         }
@@ -109,6 +113,7 @@ describe('UpdateTodoUseCase Integration Tests', () => {
       output = await useCase.execute({
         id: i.input.id,
         title: i.input.title,
+        priority: i.input.priority,
         description: i.input.description as string,
         is_scratched: i.input.is_scratched
       })
