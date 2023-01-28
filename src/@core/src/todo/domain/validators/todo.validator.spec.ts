@@ -87,56 +87,33 @@ describe('TodoValidator Tests', () => {
     })
   })
 
-  describe('invalidation cases for priority field', () => {
-    const arrange = [
-      {
-        data: {
-          priority: null
-        },
-        message: {
-          priority: [
-            'priority must be an instance of PriorityType',
-            'priority should not be empty',
-            'priority must be a non-empty object'
-          ]
-        }
-      },
-      {
-        data: {
-          priority: {}
-        },
-        message: {
-          priority: [
-            'priority must be an instance of PriorityType',
-            'priority must be a non-empty object'
-          ]
-        }
-      },
-      {
-        data: {
-          priority: 5
-        },
-        message: {
-          priority: [
-            'priority must be an instance of PriorityType',
-            'priority must be a non-empty object'
-          ]
-        }
-      },
-      {
-        data: {
-          priority: new Stub('item', 10)
-        },
-        message: {
-          priority: [
-            'priority must be an instance of PriorityType'
-          ]
-        }
-      }
-    ]
+  test('invalidation cases for priority field', () => {
+    expect({ validator, data: { priority: '' } }).containsErrorMessages({
+      priority: [
+        'priority must be an instance of PriorityType',
+        'priority should not be empty',
+        'priority must be a non-empty object'
+      ]
+    })
 
-    test.each(arrange)('invalidate %# %o - team field', (i) => {
-      expect({ validator, data: i.data }).containsErrorMessages(i.message)
+    expect({ validator, data: { priority: {} } }).containsErrorMessages({
+      priority: [
+        'priority must be an instance of PriorityType',
+        'priority must be a non-empty object'
+      ]
+    })
+
+    expect({ validator, data: { priority: 5 } }).containsErrorMessages({
+      priority: [
+        'priority must be an instance of PriorityType',
+        'priority must be a non-empty object'
+      ]
+    })
+
+    expect({ validator, data: { priority: new Stub('item', 10) } }).containsErrorMessages({
+      priority: [
+        'priority must be an instance of PriorityType'
+      ]
     })
   })
 
