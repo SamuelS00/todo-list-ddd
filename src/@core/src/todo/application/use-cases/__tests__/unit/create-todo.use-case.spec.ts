@@ -12,16 +12,16 @@ describe('CreateTodoUseCase Unit Tests', () => {
 
   it('should create a todo', async () => {
     const spyInsert = jest.spyOn(repository, 'insert')
+
     let output = await useCase.execute({
-      title: 'Buy a Book',
-      priority: 'high'
+      title: 'Buy a Book'
     })
 
     expect(output).toStrictEqual({
       id: repository.items[0].id,
       title: 'Buy a Book',
       description: null,
-      priority: 'high',
+      priority: 2,
       is_scratched: false,
       created_at: repository.items[0].created_at
     })
@@ -29,7 +29,7 @@ describe('CreateTodoUseCase Unit Tests', () => {
 
     output = await useCase.execute({
       title: 'Supermarket',
-      priority: 'high',
+      priority: 2,
       description: 'Get mayonnaise and coffee'
     })
 
@@ -37,7 +37,7 @@ describe('CreateTodoUseCase Unit Tests', () => {
       id: repository.items[1].id,
       title: 'Supermarket',
       description: 'Get mayonnaise and coffee',
-      priority: 'high',
+      priority: 2,
       is_scratched: false,
       created_at: repository.items[1].created_at
     })
