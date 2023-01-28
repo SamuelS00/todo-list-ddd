@@ -20,7 +20,7 @@ describe('TodosController Unit Tests', () => {
     const expectedOutput: CreateTodoUseCase.Output = {
       id: '22c7bbc8-b798-481e-b9fd-5bacd3c235c6',
       title: 'Supermarket',
-      priority: 'low',
+      priority: 1,
       description: 'buy fruits',
       is_scratched: false,
       created_at: new Date(),
@@ -30,11 +30,12 @@ describe('TodosController Unit Tests', () => {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
 
+    //@ts-expect-error mock for testing
     controller['createUseCase'] = mockCreateUseCase;
 
     const input: CreateTodoDto = {
       title: 'Supermarket',
-      priority: 'low',
+      priority: 1,
       description: 'buy fruits',
     };
 
@@ -49,7 +50,7 @@ describe('TodosController Unit Tests', () => {
     const expectedOutput: UpdateTodoUseCase.Output = {
       id,
       title: 'Supermarket',
-      priority: 'low',
+      priority: 1,
       description: 'buy fruits',
       is_scratched: false,
       created_at: new Date(),
@@ -59,11 +60,12 @@ describe('TodosController Unit Tests', () => {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
 
+    //@ts-expect-error mock for testing
     controller['updateUseCase'] = mockUpdateUseCase;
 
     const input: UpdateTodoDto = {
       title: 'Supermarket',
-      priority: 'low',
+      priority: 1,
       description: 'buy fruits',
     };
 
@@ -80,7 +82,9 @@ describe('TodosController Unit Tests', () => {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectOutput)),
     };
 
+    //@ts-expect-error mock for testing
     controller['deleteUseCase'] = mockDeleteUseCase;
+
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
     expect(controller.remove(id)).toBeInstanceOf(Promise);
     const output = await controller.remove(id);
@@ -93,7 +97,7 @@ describe('TodosController Unit Tests', () => {
     const expectedOutput: GetTodoUseCase.Output = {
       id,
       title: 'Supermarket',
-      priority: 'low',
+      priority: 1,
       description: 'buy fruits',
       is_scratched: false,
       created_at: new Date(),
@@ -103,6 +107,7 @@ describe('TodosController Unit Tests', () => {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
 
+    //@ts-expect-error mock for testing
     controller['getUseCase'] = mockGetUseCase;
 
     const output = await controller.findOne(id);
@@ -118,7 +123,7 @@ describe('TodosController Unit Tests', () => {
         {
           id,
           title: 'Supermarket',
-          priority: 'low',
+          priority: 1,
           description: 'buy fruits',
           is_scratched: false,
           created_at: new Date(),
@@ -134,6 +139,7 @@ describe('TodosController Unit Tests', () => {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
 
+    //@ts-expect-error mock for testing
     controller['listUseCase'] = mockListUseCase;
 
     const searchParams = {
