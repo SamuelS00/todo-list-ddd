@@ -4,23 +4,29 @@ import { Entity } from '../../../@shared/domain/entity/entity'
 import { UniqueEntityId } from '../../../@shared/domain/value-object/unique-entity-id.vo'
 import { TodoValidatorFactory } from '../validators'
 import { EntityValidationError } from '../../../@shared/domain/errors/invalid-validation-error'
-
-export type Priority = 'low' | 'medium' | 'high'
+import { PriorityType } from './priority-type.vo'
 
 export interface TodoProperties {
   title: string
-  priority: Priority
+  priority?: PriorityType
   description?: string | null
   is_scratched?: boolean
   created_at?: Date
 }
+export interface TodoPropsJson {
+  id: string
+  title: string
+  priority: number
+  description: string | null
+  is_scratched: boolean
+  created_at: Date
+}
 
-export type TodoPropsJson = Required<{ id: string } & TodoProperties>
-
-export class Todo extends Entity<TodoProperties> {
+export class Todo extends Entity<TodoProperties, TodoPropsJson> {
   constructor (public readonly props: TodoProperties, id?: UniqueEntityId) {
     Todo.validate(props)
     super(props, id)
+    this.priority = this.props.priority
     this.description = this.props.description
     this.is_scratched = this.props.is_scratched
     this.created_at = this.props.created_at
@@ -34,6 +40,11 @@ export class Todo extends Entity<TodoProperties> {
   changeDescription (newDescription: string): void {
     Todo.validate({ ...this.props, description: newDescription })
     this.description = newDescription
+  }
+
+  changePriority (newPriority: PriorityType): void {
+    Todo.validate({ ...this.props, priority: newPriority })
+    this.priority = newPriority
   }
 
   completeTask (): void {
@@ -72,8 +83,12 @@ export class Todo extends Entity<TodoProperties> {
       : value
   }
 
-  get priority (): string {
-    return this.props.priority
+  get priority (): PriorityType {
+    return this.props.priority as PriorityType
+  }
+
+  private set priority (value: PriorityType | undefined) {
+    this.props.priority = value ?? PriorityType.createMedium()
   }
 
   get is_scratched (): boolean {
@@ -98,7 +113,7 @@ export class Todo extends Entity<TodoProperties> {
       id: this.id.toString(),
       title: this.title,
       description: this.description,
-      priority: this.priority as Priority,
+      priority: this.priority.code,
       is_scratched: this.is_scratched,
       created_at: this.created_at
     }
