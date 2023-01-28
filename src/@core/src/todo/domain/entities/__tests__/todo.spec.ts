@@ -1,35 +1,39 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { EntityValidationError } from '#shared/domain'
-import { UniqueEntityId } from '../../../@shared/domain/value-object/unique-entity-id.vo'
-import { Todo, TodoProperties } from './todo'
+import { UniqueEntityId } from '../../../../@shared/domain/value-object/unique-entity-id.vo'
+import { PriorityType } from '../priority-type.vo'
+import { Todo, TodoProperties } from '../todo'
 
 describe('Todo Unit Tests', () => {
   test('constructor of todo', () => {
     const createdAt = new Date()
+    const priorityMedium = PriorityType.createMedium()
 
     let todo = new Todo({
       title: 'Supermarket',
-      priority: 'medium',
+      priority: priorityMedium,
       created_at: createdAt
     })
+
     expect(todo.props).toStrictEqual({
       title: 'Supermarket',
       description: null,
-      priority: 'medium',
+      priority: priorityMedium,
       created_at: createdAt,
       is_scratched: false
     })
 
     todo = new Todo({
       title: 'Clean house',
-      priority: 'low'
+      priority: priorityMedium
     })
     expect(todo.created_at).toBeInstanceOf(Date)
+    expect(todo.priority).toBeInstanceOf(PriorityType)
+    expect(todo.priority.description).toBe('Medium')
     expect(todo.is_scratched).toBeFalsy()
 
     todo = new Todo({
       title: 'Clean house',
-      priority: 'low',
       is_scratched: true
     })
     expect(todo).toBeTruthy()
@@ -37,7 +41,7 @@ describe('Todo Unit Tests', () => {
     todo = new Todo({
       title: 'Summarize book chapter',
       description: 'Summary of the book such, chapter 3.',
-      priority: 'low',
+      priority: priorityMedium,
       is_scratched: true,
       created_at: createdAt
     })
@@ -50,10 +54,7 @@ describe('Todo Unit Tests', () => {
       id?: UniqueEntityId
     }
 
-    const props: TodoProperties = {
-      title: 'Supermarket',
-      priority: 'medium'
-    }
+    const props: TodoProperties = { title: 'Supermarket' }
 
     const data: TodoData[] = [
       { props },
@@ -70,14 +71,23 @@ describe('Todo Unit Tests', () => {
     })
   })
 
-  test('getter and setter of name and priority prop', () => {
-    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+  test('getter and setter of name prop', () => {
+    const todo = new Todo({ title: 'supermarket' })
     expect(todo.title).toBe('supermarket')
-    expect(todo.priority).toBe('low')
 
     todo['title'] = 'Supermarket'
     expect(todo.title).toBe('Supermarket')
-    expect(todo.priority).toBe('low')
+  })
+
+  test('getter and setter of priority prop', () => {
+    const priorityLow = PriorityType.createLow()
+    const todo = new Todo({
+      title: 'supermarket',
+      priority: priorityLow
+    })
+
+    expect(todo.priority.description).toBe('Low')
+    expect(todo.priority.code).toBe(1)
   })
 
   test('getter and setter of description prop', () => {
@@ -114,7 +124,6 @@ describe('Todo Unit Tests', () => {
     inputs.forEach(({ value, change, expected }) => {
       const todo = new Todo({
         title: 'Supermarket',
-        priority: 'low',
         description: value
       })
 
@@ -137,7 +146,6 @@ describe('Todo Unit Tests', () => {
     inputs.forEach(({ value, expected }) => {
       const todo = new Todo({
         title: 'supermarket',
-        priority: 'low',
         is_scratched: value as any
       })
       expect(todo.is_scratched).toBe(expected)
@@ -145,10 +153,7 @@ describe('Todo Unit Tests', () => {
   })
 
   test('getter of created_at prop', () => {
-    let todo = new Todo({
-      title: 'supermarket',
-      priority: 'low'
-    })
+    let todo = new Todo({ title: 'supermarket' })
 
     expect(todo.created_at).toBeInstanceOf(Date)
 
@@ -156,24 +161,30 @@ describe('Todo Unit Tests', () => {
 
     todo = new Todo({
       title: 'supermarket',
-      priority: 'low',
       created_at: createdAt
     })
     expect(todo.created_at).toBe(createdAt)
   })
 
   it('should update the todo transforming description to null when it is undefined', () => {
-    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+    const todo = new Todo({ title: 'supermarket' })
 
     todo.changeDescription(undefined as any)
     expect(todo.title).toBe('supermarket')
     expect(todo.description).toBeNull()
   })
 
+  it('should have a medium type priority by default when not passed', () => {
+    const todo = new Todo({ title: 'Supermarket' })
+
+    expect(todo.priority.description).toBe('Medium')
+    expect(todo.priority.code).toBe(2)
+  })
+
   it('should throw an error update with a invalid title', () => {
     const invalidNames = [undefined, null, 0, '']
 
-    const todo = new Todo({ title: 'supermarket', priority: 'low' })
+    const todo = new Todo({ title: 'supermarket' })
 
     invalidNames.forEach((invalidName: any) => {
       expect(() => {
@@ -183,10 +194,7 @@ describe('Todo Unit Tests', () => {
   })
 
   it('should change title attribute', () => {
-    const todo = new Todo({
-      title: 'Supermarket',
-      priority: 'medium'
-    })
+    const todo = new Todo({ title: 'Supermarket' })
 
     expect(todo.title).toBe('Supermarket')
 
@@ -199,7 +207,6 @@ describe('Todo Unit Tests', () => {
 
     const todo = new Todo({
       title: 'supermarket',
-      priority: 'low',
       description: 'Pay with debit card'
     })
 
@@ -213,7 +220,6 @@ describe('Todo Unit Tests', () => {
   it('should change description attribute', () => {
     const todo = new Todo({
       title: 'Supermarket',
-      priority: 'medium',
       description: 'Get mayonnaise and coffee'
     })
 
@@ -223,10 +229,23 @@ describe('Todo Unit Tests', () => {
     expect(todo.description).toBe('Other description')
   })
 
+  it('should change priority attribute', () => {
+    const priorityMedium = PriorityType.createByCode(2)
+
+    const todo = new Todo({
+      title: 'Supermarket',
+      priority: PriorityType.createByCode(1)
+    })
+
+    todo.changePriority(priorityMedium)
+
+    expect(todo.priority.description).toBe('Medium')
+    expect(todo.priority.code).toBe(2)
+  })
+
   it('should completed task is_scratched attribute', () => {
     const todo = new Todo({
       title: 'Supermarket',
-      priority: 'medium',
       description: 'Get mayonnaise and coffee',
       is_scratched: false
     })
@@ -238,7 +257,6 @@ describe('Todo Unit Tests', () => {
   it('should reactivate task is_scratched attribute', () => {
     const todo = new Todo({
       title: 'Supermarket',
-      priority: 'medium',
       description: 'Get mayonnaise and coffee',
       is_scratched: true
     })
