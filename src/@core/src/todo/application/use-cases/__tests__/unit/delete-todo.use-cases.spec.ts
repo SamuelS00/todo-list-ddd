@@ -22,7 +22,6 @@ describe('DeleteTodoUseCase Unit Tests', () => {
     const items = [
       new Todo({
         title: 'Buy a Book',
-        priority: 'high',
         description: 'Description not defined'
       })
     ]

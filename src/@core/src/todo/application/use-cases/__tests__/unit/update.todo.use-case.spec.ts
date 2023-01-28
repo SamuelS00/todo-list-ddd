@@ -21,8 +21,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
   it('should create a todo', async () => {
     const spyUpdate = jest.spyOn(repository, 'update')
     const entity = new Todo({
-      title: 'Supermarket',
-      priority: 'low'
+      title: 'Supermarket'
     })
 
     repository.items = [entity]
@@ -31,12 +30,13 @@ describe('UpdateTodoUseCase Unit Tests', () => {
       id: entity.id,
       title: 'test'
     })
+
     expect(spyUpdate).toHaveBeenCalledTimes(1)
     expect(output).toStrictEqual({
       id: entity.id.toString(),
       title: 'test',
       description: null,
-      priority: 'low',
+      priority: 2,
       is_scratched: false,
       created_at: entity.created_at
     })
@@ -45,7 +45,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
       input: {
         id: string
         title: string
-        priority?: string
+        priority?: number
         description?: null | string
         is_scratched?: boolean
       }
@@ -53,7 +53,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         id: string
         title: string
         description: null | string
-        priority?: string
+        priority?: number
         is_scratched: boolean
         created_at: Date
       }
@@ -70,7 +70,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
           id: entity.id,
           title: 'test',
           description: 'some description',
-          priority: 'low',
+          priority: 2,
           is_scratched: false,
           created_at: entity.created_at
         }
@@ -79,12 +79,12 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         input: {
           id: entity.id,
           title: 'test',
-          priority: 'low'
+          priority: 3
         },
         expected: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 3,
           description: 'some description',
           is_scratched: false,
           created_at: entity.created_at
@@ -94,13 +94,13 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         input: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           is_scratched: false
         },
         expected: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           description: 'some description',
           is_scratched: false,
           created_at: entity.created_at
@@ -110,12 +110,12 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         input: {
           id: entity.id,
           title: 'test',
-          priority: 'low'
+          priority: 1
         },
         expected: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           description: 'some description',
           is_scratched: false,
           created_at: entity.created_at
@@ -125,13 +125,13 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         input: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           is_scratched: true
         },
         expected: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           description: 'some description',
           is_scratched: true,
           created_at: entity.created_at
@@ -141,14 +141,14 @@ describe('UpdateTodoUseCase Unit Tests', () => {
         input: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           description: 'some description',
           is_scratched: false
         },
         expected: {
           id: entity.id,
           title: 'test',
-          priority: 'low',
+          priority: 1,
           description: 'some description',
           is_scratched: false,
           created_at: entity.created_at
@@ -160,9 +160,11 @@ describe('UpdateTodoUseCase Unit Tests', () => {
       output = await useCase.execute({
         id: i.input.id,
         title: i.input.title,
+        priority: i.input.priority,
         description: i.input.description as string,
         is_scratched: i.input.is_scratched
       })
+
       expect(output).toStrictEqual({
         id: entity.id,
         title: i.expected.title,

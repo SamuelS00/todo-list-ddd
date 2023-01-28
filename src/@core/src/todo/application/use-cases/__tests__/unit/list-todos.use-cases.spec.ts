@@ -35,7 +35,6 @@ describe('ListTodosUseCase Unit Tests', () => {
 
     const todo = new Todo({
       title: 'Buy a Book',
-      priority: 'high',
       description: 'Description not defined'
     })
     result = new TodoRepository.SearchResult({
@@ -61,12 +60,10 @@ describe('ListTodosUseCase Unit Tests', () => {
     const items: Todo[] = [
       new Todo({
         title: 'Buy a Book',
-        priority: 'high',
         description: 'Description not defined'
       }),
       new Todo({
         title: 'Go to the gym',
-        priority: 'high',
         description: 'arrive before 9 am',
         created_at: new Date(new Date().getTime() + 100)
       })
@@ -88,24 +85,19 @@ describe('ListTodosUseCase Unit Tests', () => {
   it('should returns output using pagination, sort and filter', async () => {
     const items: Todo[] = [
       new Todo({
-        title: 'app',
-        priority: 'high'
+        title: 'app'
       }),
       new Todo({
-        title: 'AAA',
-        priority: 'high'
+        title: 'AAA'
       }),
       new Todo({
-        title: 'AaA',
-        priority: 'high'
+        title: 'AaA'
       }),
       new Todo({
-        title: 'bbb',
-        priority: 'high'
+        title: 'bbb'
       }),
       new Todo({
-        title: 'ccc',
-        priority: 'high'
+        title: 'ccc'
       })
     ]
 

@@ -22,7 +22,6 @@ describe('GetTodoUseCase Unit Tests', () => {
     const items = [
       new Todo({
         title: 'Buy a Book',
-        priority: 'high',
         description: 'Description not defined'
       })
     ]
@@ -36,7 +35,7 @@ describe('GetTodoUseCase Unit Tests', () => {
       id: repository.items[0].id,
       title: 'Buy a Book',
       description: 'Description not defined',
-      priority: 'high',
+      priority: 2,
       is_scratched: false,
       created_at: repository.items[0].created_at
     })
