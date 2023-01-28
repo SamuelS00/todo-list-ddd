@@ -18,7 +18,7 @@ describe('CreateTodoUseCase Integration Tests', () => {
   it('should create a todo', async () => {
     let output = await useCase.execute({
       title: 'Buy a Book',
-      priority: 'high'
+      priority: 1
     })
 
     let entity = await repository.findById(output.id)
@@ -27,14 +27,16 @@ describe('CreateTodoUseCase Integration Tests', () => {
       id: entity.id,
       title: 'Buy a Book',
       description: null,
-      priority: 'high',
+      priority: 1,
       is_scratched: false,
       created_at: entity.created_at
     })
+    expect(entity.priority.description).toBe('Low')
+    expect(entity.priority.code).toBe(1)
 
     output = await useCase.execute({
       title: 'Supermarket',
-      priority: 'high',
+      priority: 2,
       description: 'Get mayonnaise and coffee'
     })
 
@@ -44,14 +46,16 @@ describe('CreateTodoUseCase Integration Tests', () => {
       id: entity.id,
       title: 'Supermarket',
       description: 'Get mayonnaise and coffee',
-      priority: 'high',
+      priority: 2,
       is_scratched: false,
       created_at: entity.created_at
     })
+    expect(entity.priority.description).toBe('Medium')
+    expect(entity.priority.code).toBe(2)
 
     output = await useCase.execute({
       title: 'Supermarket',
-      priority: 'high',
+      priority: 3,
       is_scratched: false
     })
 
@@ -61,9 +65,11 @@ describe('CreateTodoUseCase Integration Tests', () => {
       id: entity.id,
       title: 'Supermarket',
       description: null,
-      priority: 'high',
+      priority: 3,
       is_scratched: false,
       created_at: entity.created_at
     })
+    expect(entity.priority.description).toBe('High')
+    expect(entity.priority.code).toBe(3)
   })
 })
