@@ -1,3 +1,7 @@
+import {
+  TodoCollectionPresenter,
+  TodoPresenter,
+} from '../../presenter/todo.presenter';
 import { SortDirection } from 'todo-list/@shared/domain';
 import {
   CreateTodoUseCase,
@@ -5,9 +9,9 @@ import {
   ListTodosUseCase,
   UpdateTodoUseCase,
 } from 'todo-list/todo/application';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
-import { TodosController } from './todos.controller';
+import { CreateTodoDto } from '../../dto/create-todo.dto';
+import { UpdateTodoDto } from '../../dto/update-todo.dto';
+import { TodosController } from '../../todos.controller';
 
 describe('TodosController Unit Tests', () => {
   let controller: TodosController;
@@ -17,8 +21,9 @@ describe('TodosController Unit Tests', () => {
   });
 
   it('should creates a todo', async () => {
-    const expectedOutput: CreateTodoUseCase.Output = {
-      id: '22c7bbc8-b798-481e-b9fd-5bacd3c235c6',
+    const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
+    const output: CreateTodoUseCase.Output = {
+      id,
       title: 'Supermarket',
       priority: 1,
       description: 'buy fruits',
@@ -26,8 +31,10 @@ describe('TodosController Unit Tests', () => {
       created_at: new Date(),
     };
 
+    const expectedPresenter = new TodoPresenter(output);
+
     const mockCreateUseCase = {
-      execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+      execute: jest.fn().mockReturnValue(Promise.resolve(expectedPresenter)),
     };
 
     //@ts-expect-error mock for testing
@@ -39,15 +46,16 @@ describe('TodosController Unit Tests', () => {
       description: 'buy fruits',
     };
 
-    const output = await controller.create(input);
+    const presenter = await controller.create(input);
 
     expect(mockCreateUseCase.execute).toHaveBeenCalledWith(input);
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(TodoPresenter);
+    expect(presenter).toStrictEqual(new TodoPresenter(expectedPresenter));
   });
 
   it('should updates a todo', async () => {
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
-    const expectedOutput: UpdateTodoUseCase.Output = {
+    const output: UpdateTodoUseCase.Output = {
       id,
       title: 'Supermarket',
       priority: 1,
@@ -56,8 +64,10 @@ describe('TodosController Unit Tests', () => {
       created_at: new Date(),
     };
 
+    const expectedPresenter = new TodoPresenter(output);
+
     const mockUpdateUseCase = {
-      execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+      execute: jest.fn().mockReturnValue(Promise.resolve(expectedPresenter)),
     };
 
     //@ts-expect-error mock for testing
@@ -69,10 +79,11 @@ describe('TodosController Unit Tests', () => {
       description: 'buy fruits',
     };
 
-    const output = await controller.update(id, input);
+    const presenter = await controller.update(id, input);
 
     expect(mockUpdateUseCase.execute).toHaveBeenCalledWith({ id, ...input });
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(TodoPresenter);
+    expect(presenter).toStrictEqual(expectedPresenter);
   });
 
   it('should deletes a todo', async () => {
@@ -94,7 +105,7 @@ describe('TodosController Unit Tests', () => {
 
   it('should gets a todo', async () => {
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
-    const expectedOutput: GetTodoUseCase.Output = {
+    const output: GetTodoUseCase.Output = {
       id,
       title: 'Supermarket',
       priority: 1,
@@ -103,22 +114,25 @@ describe('TodosController Unit Tests', () => {
       created_at: new Date(),
     };
 
+    const expectedPresenter = new TodoPresenter(output);
+
     const mockGetUseCase = {
-      execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+      execute: jest.fn().mockReturnValue(Promise.resolve(expectedPresenter)),
     };
 
     //@ts-expect-error mock for testing
     controller['getUseCase'] = mockGetUseCase;
 
-    const output = await controller.findOne(id);
+    const presenter = await controller.findOne(id);
 
     expect(mockGetUseCase.execute).toHaveBeenCalledWith({ id });
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(TodoPresenter);
+    expect(presenter).toStrictEqual(new TodoPresenter(expectedPresenter));
   });
 
   it('should list todos', async () => {
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
-    const expectedOutput: ListTodosUseCase.Output = {
+    const output: ListTodosUseCase.Output = {
       items: [
         {
           id,
@@ -136,7 +150,7 @@ describe('TodosController Unit Tests', () => {
     };
 
     const mockListUseCase = {
-      execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
     };
 
     //@ts-expect-error mock for testing
@@ -145,13 +159,13 @@ describe('TodosController Unit Tests', () => {
     const searchParams = {
       page: 1,
       per_page: 2,
-      sort: 'priority',
       sort_dir: 'desc' as SortDirection,
       filter: 'test',
     };
 
-    const output = await controller.search(searchParams);
+    const presenter = await controller.search(searchParams);
     expect(mockListUseCase.execute).toHaveBeenCalledWith(searchParams);
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(TodoCollectionPresenter);
+    expect(presenter).toStrictEqual(new TodoCollectionPresenter(output));
   });
 });
