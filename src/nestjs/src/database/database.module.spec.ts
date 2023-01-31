@@ -24,7 +24,6 @@ describe('DatabaseModule Unit Tests', () => {
     });
 
     it('should be a sqlite connection', async () => {
-      jest.useFakeTimers();
       const module = await Test.createTestingModule({
         imports: [
           DatabaseModule,
