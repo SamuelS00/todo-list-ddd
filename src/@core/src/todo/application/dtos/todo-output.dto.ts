@@ -1,8 +1,8 @@
 export interface TodoOutput {
   id: string
   title: string
-  description?: string | null
+  description: string | null
   priority: number
-  is_scratched?: boolean
+  is_scratched: boolean
   created_at: Date
 }
