@@ -2,7 +2,17 @@ import { Chance } from 'chance'
 
 const lib = Chance()
 
-export const DataGenerator = {
+export interface DataGeneratorInterface<T> {
+  lib: T
+  uuid: () => string
+  word: (options?: { length?: number }) => string
+  text: () => string
+  integer: (min: number, max: number) => number
+  sentence: () => string
+  date: () => Date
+}
+
+export const DataGenerator: DataGeneratorInterface<Chance.Chance> = {
   lib,
   uuid (): string {
     return DataGenerator.lib.guid({ version: 4 })
