@@ -9,6 +9,7 @@ export interface DataGeneratorInterface<T> {
   text: () => string
   integer: (min: number, max: number) => number
   sentence: () => string
+  paragraph: () => string
   date: () => Date
 }
 
@@ -30,6 +31,9 @@ export const DataGenerator: DataGeneratorInterface<Chance.Chance> = {
   },
   sentence (): string {
     return DataGenerator.lib.sentence()
+  },
+  paragraph (): string {
+    return DataGenerator.lib.paragraph()
   },
   date (): Date {
     return DataGenerator.lib.date()
