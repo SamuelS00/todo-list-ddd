@@ -5,6 +5,7 @@ import { UniqueEntityId } from '../../../@shared/domain/value-object/unique-enti
 import { TodoValidatorFactory } from '../validators'
 import { EntityValidationError } from '../../../@shared/domain/errors/invalid-validation-error'
 import { PriorityType } from './priority-type.vo'
+import { TodoFakeBuilder } from '../builders/todo-fake-builder'
 
 export interface TodoProperties {
   title: string
@@ -106,6 +107,10 @@ export class Todo extends Entity<TodoProperties, TodoPropsJson> {
   private set created_at (value: Date | undefined) {
     const date = value ?? new Date()
     this.props.created_at = date
+  }
+
+  static fake () {
+    return TodoFakeBuilder
   }
 
   toJSON (): TodoPropsJson {
