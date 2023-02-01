@@ -126,6 +126,10 @@ export namespace TodoSequelize {
       await this.todoModel.create(entity.toJSON())
     }
 
+    async bulkInsert (entities: Todo[]): Promise<void> {
+      await this.todoModel.bulkCreate(entities.map(e => e.toJSON()))
+    }
+
     async findById (id: string | UniqueEntityId): Promise<Todo> {
       const _id = `${id}`
       const model = await this._get(_id)
