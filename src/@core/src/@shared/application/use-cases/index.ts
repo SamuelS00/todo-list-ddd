@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './use-case'
+export * from './use-case';

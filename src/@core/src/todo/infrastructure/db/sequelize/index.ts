@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './todo-sequelize'
+export * from './todo-sequelize';
