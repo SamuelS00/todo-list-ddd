@@ -11,8 +11,8 @@ import { Model, Column, DataType, PrimaryKey, Table } from 'sequelize-typescript
 import { Op } from 'sequelize'
 import { SequelizeModelFactory } from '../../../../@shared/infrastructure/sequelize/sequelize-model.factory'
 import { DataGenerator } from '../../../../@shared/infrastructure/testing/helpers/data-generator'
-import { PriorityType } from '#todo/domain/entities/priority-type.vo'
-import { PriorityError } from '#todo/domain/errors/priority-type.error'
+import { PriorityType } from '../../../../todo/domain/entities/priority-type.vo'
+import { PriorityError } from '../../../../todo/domain/errors/priority-type.error'
 
 export namespace TodoSequelize {
   interface TodosModelProperties {
@@ -42,7 +42,7 @@ export namespace TodoSequelize {
     @Column({ allowNull: false, type: DataType.BOOLEAN })
     declare is_scratched: boolean
 
-    @Column({ allowNull: false, type: DataType.DATE })
+    @Column({ allowNull: false, type: DataType.DATE(3) })
     declare created_at: Date
 
     static factory (): SequelizeModelFactory<TodoModel, TodosModelProperties> {
