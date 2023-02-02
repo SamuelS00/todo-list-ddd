@@ -16,7 +16,6 @@ export default {
   collectCoverageFrom: [
     "**/*.(t|j)s"
   ],
-  coverageDirectory: "../coverage",
   moduleNameMapper: {
     'todo\\-list/(.*)$': '<rootDir>/../../../node_modules/todo-list/dist/$1',
     // '#shared/domain': '<rootDir>/../../../node_modules/todo-list/dist/@shared/domain/index.js',
@@ -27,4 +26,14 @@ export default {
   setupFilesAfterEnv: [
     '../../@core/src/@shared/domain/tests/jest.ts',
   ],
+  coverageProvider: 'v8',
+  coverageDirectory: '../__coverage',
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80
+    }
+  },
 }  
