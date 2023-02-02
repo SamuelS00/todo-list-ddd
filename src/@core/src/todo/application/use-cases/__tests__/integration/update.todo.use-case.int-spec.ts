@@ -2,6 +2,7 @@ import { NotFoundError } from '../../../../../@shared/domain/errors/not-found-er
 import { UpdateTodoUseCase } from '../../update-todo.use-cases'
 import { TodoSequelize } from '#todo/infrastructure/db/sequelize/todo-sequelize'
 import { setupSequelize } from '#shared/infrastructure/testing/helpers/db'
+import { Todo } from '#todo/domain'
 
 const { TodoModel, TodoSequelizeRepository } = TodoSequelize
 
@@ -23,22 +24,24 @@ describe('UpdateTodoUseCase Integration Tests', () => {
   })
 
   it('should update a todo', async () => {
-    const model = await TodoModel.factory().create()
+    const entity = Todo.fake().aTodo().build()
+
+    await repository.insert(entity)
 
     let output = await useCase.execute({
-      id: model.id,
+      id: entity.id,
       title: 'supermarket',
       description: 'description',
       priority: 2
     })
 
     expect(output).toStrictEqual({
-      id: model.id,
+      id: entity.id,
       title: 'supermarket',
       description: 'description',
       priority: 2,
       is_scratched: false,
-      created_at: model.created_at
+      created_at: entity.created_at
     })
 
     interface Arrange {
@@ -62,49 +65,49 @@ describe('UpdateTodoUseCase Integration Tests', () => {
     const arrange: Arrange[] = [
       {
         input: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
           description: 'some description',
           priority: 3
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
           description: 'some description',
           priority: 3,
           is_scratched: false,
-          created_at: model.created_at
+          created_at: entity.created_at
         }
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
-          description: model.description,
+          description: entity.description,
           priority: 2
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
-          description: model.description,
+          description: entity.description,
           priority: 2,
           is_scratched: false,
-          created_at: model.created_at
+          created_at: entity.created_at
         }
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
           is_scratched: true
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           title: 'test',
-          description: model.description,
+          description: entity.description,
           priority: 2,
           is_scratched: true,
-          created_at: model.created_at
+          created_at: entity.created_at
         }
       }
     ]
@@ -118,7 +121,7 @@ describe('UpdateTodoUseCase Integration Tests', () => {
         is_scratched: i.input.is_scratched
       })
       expect(output).toStrictEqual({
-        id: model.id,
+        id: entity.id,
         title: i.expected.title,
         description: i.expected.description,
         priority: i.expected.priority,
