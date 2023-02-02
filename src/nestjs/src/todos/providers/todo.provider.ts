@@ -38,7 +38,7 @@ export namespace TODO_PROVIDERS {
       useFactory: (todoRepo: TodoRepository.Repository) => {
         return new CreateTodoUseCase.UseCase(todoRepo);
       },
-      inject: [REPOSITORIES.TODO_IN_MEMORY_REPOSITORY.provide],
+      inject: [REPOSITORIES.TODO_REPOSITORY.provide],
     };
 
     export const DELETE_TODO_USE_CASE = {
@@ -46,7 +46,7 @@ export namespace TODO_PROVIDERS {
       useFactory: (todoRepo: TodoRepository.Repository) => {
         return new DeleteTodoUseCase.UseCase(todoRepo);
       },
-      inject: [REPOSITORIES.TODO_IN_MEMORY_REPOSITORY.provide],
+      inject: [REPOSITORIES.TODO_REPOSITORY.provide],
     };
 
     export const GET_TODO_USE_CASE = {
@@ -54,7 +54,7 @@ export namespace TODO_PROVIDERS {
       useFactory: (todoRepo: TodoRepository.Repository) => {
         return new GetTodoUseCase.UseCase(todoRepo);
       },
-      inject: [REPOSITORIES.TODO_IN_MEMORY_REPOSITORY.provide],
+      inject: [REPOSITORIES.TODO_REPOSITORY.provide],
     };
 
     export const UPDATE_TODO_USE_CASE = {
@@ -62,7 +62,7 @@ export namespace TODO_PROVIDERS {
       useFactory: (todoRepo: TodoRepository.Repository) => {
         return new UpdateTodoUseCase.UseCase(todoRepo);
       },
-      inject: [REPOSITORIES.TODO_IN_MEMORY_REPOSITORY.provide],
+      inject: [REPOSITORIES.TODO_REPOSITORY.provide],
     };
 
     export const LIST_TODO_USE_CASE = {
@@ -70,7 +70,7 @@ export namespace TODO_PROVIDERS {
       useFactory: (todoRepo: TodoRepository.Repository) => {
         return new ListTodosUseCase.UseCase(todoRepo);
       },
-      inject: [REPOSITORIES.TODO_IN_MEMORY_REPOSITORY.provide],
+      inject: [REPOSITORIES.TODO_REPOSITORY.provide],
     };
   }
 }
