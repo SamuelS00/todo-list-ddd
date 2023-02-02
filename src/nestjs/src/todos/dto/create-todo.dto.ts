@@ -1,9 +1,26 @@
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsNumber,
+} from 'class-validator';
 import { CreateTodoUseCase } from 'todo-list/todo/application';
-// import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTodoDto implements CreateTodoUseCase.Input {
+  @IsString()
+  @IsNotEmpty()
   title: string;
-  priority: number;
+
+  @IsNumber()
+  @IsOptional()
+  priority?: number;
+
+  @IsString()
+  @IsOptional()
   description?: string;
+
+  @IsBoolean()
+  @IsOptional()
   is_scratched?: boolean;
 }
