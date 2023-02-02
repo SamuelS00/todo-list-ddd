@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
+import { TodoFakeBuilder } from '../../../domain/builders/todo-fake-builder'
 import { Todo } from '../../../domain/entities/todo'
 import { TodoInMemoryRepository } from './todo-in-memory.repository'
 
+// TODO: refactor entities created via instance by the entity builder.
 describe('TodoInMemoryRepository', () => {
   let repository: TodoInMemoryRepository
 
   beforeEach(() => (repository = new TodoInMemoryRepository()))
   it('should no filter items when filter object is null', async () => {
-    const items = [new Todo({ title: 'test' })]
+    const items = [
+      TodoFakeBuilder.aTodo().build()
+    ]
     const filterSpy = jest.spyOn(items, 'filter' as any)
 
     const itemsFiltered = await repository['applyFilter'](items, null as any)
@@ -17,11 +21,14 @@ describe('TodoInMemoryRepository', () => {
   })
 
   it('should filter items using filter parameter', async () => {
+    const faker = TodoFakeBuilder.aTodo()
+
     const items = [
-      new Todo({ title: 'test' }),
-      new Todo({ title: 'TEST' }),
-      new Todo({ title: 'fake' })
+      faker.withTitle('test').build(),
+      faker.withTitle('TEST').build(),
+      faker.withTitle('fake').build()
     ]
+
     const filterSpy = jest.spyOn(items, 'filter' as any)
 
     const itemsFiltered = await repository['applyFilter'](items, 'TEST')
