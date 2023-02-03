@@ -18,7 +18,7 @@ describe('UpdateTodoUseCase Unit Tests', () => {
     )
   })
 
-  it('should create a todo', async () => {
+  it('should update a todo', async () => {
     const spyUpdate = jest.spyOn(repository, 'update')
     const entity = new Todo({
       title: 'Supermarket'
