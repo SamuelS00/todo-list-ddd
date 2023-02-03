@@ -98,12 +98,13 @@ describe('TodosController Unit Tests', () => {
 
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
     expect(controller.remove(id)).toBeInstanceOf(Promise);
+
     const output = await controller.remove(id);
     expect(mockDeleteUseCase.execute).toHaveBeenCalledWith({ id });
     expect(expectOutput).toStrictEqual(output);
   });
 
-  it('should gets a todo', async () => {
+  it('should get a todo', async () => {
     const id = '22c7bbc8-b798-481e-b9fd-5bacd3c235c6';
     const output: GetTodoUseCase.Output = {
       id,
