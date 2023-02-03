@@ -13,12 +13,12 @@ export class TodoFixture {
     ];
   }
 
-  static arrangeForSave() {
+  static arrangeForCreate() {
     const faker = Todo.fake()
       .aTodo()
       .withTitle('go to the bakery')
       .withDescription('get croissant')
-      .withPriority(PriorityType.createLow())
+      .withPriority(PriorityType.createMedium())
       .build();
 
     return [
@@ -27,8 +27,130 @@ export class TodoFixture {
           title: faker.title,
         },
         expected: {
-          priority: 2,
           description: null,
+          priority: 2,
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: 1,
+        },
+        expected: {
+          priority: 1,
+          description: null,
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          description: faker.description,
+        },
+        expected: {
+          description: faker.description,
+          is_scratched: false,
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          is_scratched: false,
+        },
+        expected: {
+          description: null,
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: faker.priority.code,
+          description: faker.description,
+          is_scratched: true,
+        },
+        expected: {},
+      },
+    ];
+  }
+
+  static arrangeForUpdate() {
+    const faker = Todo.fake()
+      .aTodo()
+      .withTitle('go to the bakery')
+      .withDescription('get croissant')
+      .withPriority(PriorityType.createMedium())
+      .build();
+
+    // if the description is not sent for the update,
+    // the current description of the entity is maintained.
+    return [
+      {
+        send_data: {
+          title: faker.title,
+        },
+        expected: {
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: 3,
+        },
+        expected: {
+          priority: 3,
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          description: faker.description,
+        },
+        expected: {
+          is_scratched: false,
+          description: faker.description,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          is_scratched: false,
+          priority: 2,
+        },
+        expected: {
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: faker.priority.code,
+          description: faker.description,
+          is_scratched: true,
+        },
+        expected: {},
+      },
+    ];
+  }
+
+  static arrangeForSave() {
+    const faker = Todo.fake()
+      .aTodo()
+      .withTitle('go to the bakery')
+      .withDescription('get croissant')
+      .withPriority(PriorityType.createMedium())
+      .build();
+
+    return [
+      {
+        send_data: {
+          title: faker.title,
+        },
+        expected: {
           is_scratched: false,
         },
       },
@@ -76,6 +198,7 @@ export class TodoFixture {
       {
         send_data: {
           title: faker.title,
+          priority: faker.priority.code,
           description: faker.description,
           is_scratched: true,
         },
@@ -84,7 +207,7 @@ export class TodoFixture {
       {
         send_data: {
           title: faker.title,
-          priority: faker.priority,
+          priority: faker.priority.code,
           description: faker.description,
           is_scratched: false,
         },
@@ -318,7 +441,7 @@ export class CreateTodoFixture {
   }
 
   static arrangeForSave() {
-    return TodoFixture.arrangeForSave();
+    return TodoFixture.arrangeForCreate();
   }
 
   static arrangeInvalidRequest() {
@@ -336,7 +459,7 @@ export class UpdateTodoFixture {
   }
 
   static arrangeForSave() {
-    return TodoFixture.arrangeForSave();
+    return TodoFixture.arrangeForUpdate();
   }
 
   static arrangeInvalidRequest() {
@@ -370,15 +493,17 @@ export class ListTodosFixture {
       fourth: entities[3],
     };
 
+    console.log(entitiesMap.first);
+
     const arrange = [
       {
         send_data: {},
         expected: {
           items: [
-            entitiesMap.fourth,
-            entitiesMap.third,
-            entitiesMap.second,
-            entitiesMap.first,
+            entitiesMap.fourth.toJSON(),
+            entitiesMap.third.toJSON(),
+            entitiesMap.second.toJSON(),
+            entitiesMap.first.toJSON(),
           ],
           current_page: 1,
           last_page: 1,
@@ -392,7 +517,7 @@ export class ListTodosFixture {
           per_page: 2,
         },
         expected: {
-          items: [entitiesMap.fourth, entitiesMap.third],
+          items: [entitiesMap.fourth.toJSON(), entitiesMap.third.toJSON()],
           current_page: 1,
           last_page: 2,
           per_page: 2,
@@ -405,7 +530,7 @@ export class ListTodosFixture {
           per_page: 2,
         },
         expected: {
-          items: [entitiesMap.second, entitiesMap.first],
+          items: [entitiesMap.second.toJSON(), entitiesMap.first.toJSON()],
           current_page: 2,
           last_page: 2,
           per_page: 2,
@@ -450,7 +575,7 @@ export class ListTodosFixture {
           filter: 'a',
         },
         expected: {
-          items: [entitiesMap.AAA, entitiesMap.AaA],
+          items: [entitiesMap.AAA.toJSON(), entitiesMap.AaA.toJSON()],
           total: 3,
           current_page: 1,
           last_page: 2,
@@ -465,7 +590,7 @@ export class ListTodosFixture {
           filter: 'a',
         },
         expected: {
-          items: [entitiesMap.app],
+          items: [entitiesMap.app.toJSON()],
           total: 3,
           current_page: 2,
           last_page: 2,
@@ -481,7 +606,7 @@ export class ListTodosFixture {
           filter: 'a',
         },
         expected: {
-          items: [entitiesMap.app, entitiesMap.AaA],
+          items: [entitiesMap.app.toJSON(), entitiesMap.AaA.toJSON()],
           total: 3,
           current_page: 1,
           last_page: 2,
@@ -497,7 +622,7 @@ export class ListTodosFixture {
           filter: 'a',
         },
         expected: {
-          items: [entitiesMap.AAA],
+          items: [entitiesMap.AAA.toJSON()],
           total: 3,
           current_page: 2,
           last_page: 2,
