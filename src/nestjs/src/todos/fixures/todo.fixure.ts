@@ -493,8 +493,6 @@ export class ListTodosFixture {
       fourth: entities[3],
     };
 
-    console.log(entitiesMap.first);
-
     const arrange = [
       {
         send_data: {},
