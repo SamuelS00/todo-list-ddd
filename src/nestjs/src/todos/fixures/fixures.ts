@@ -270,9 +270,23 @@ export class TodoFixture {
         },
         expected: {
           message: [
-            'description should not be empty',
+            'title should not be empty',
+            'title must be a string',
             'description must be a string',
-            'description must be a string',
+          ],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'PRIORITY NOT A NUMBER',
+        send_data: {
+          priority: faker.withInvalidPriorityEmpty('').priority,
+        },
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be a string',
+            'priority must be a number',
           ],
           ...defaultExpected,
         },
