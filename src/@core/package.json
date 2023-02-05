@@ -13,6 +13,7 @@
   "exports": {
     "./@shared/application": "./dist/@shared/application/index.js",
     "./@shared/domain": "./dist/@shared/domain/index.js",
+    "./@shared/infrastructure": "./dist/@shared/infrastructure/index.js",
     "./todo/application": "./dist/todo/application/index.js",
     "./todo/domain": "./dist/todo/domain/index.js",
     "./todo/infrastructure": "./dist/todo/infrastructure/index.js"
@@ -24,6 +25,9 @@
       ],
       "@shared/domain": [
         "./dist/@shared/domain/index.d.ts"
+      ],
+      "@shared/infrastructure'": [
+        "./dist/@shared/infrastructure/index.d.ts"
       ],
       "todo/application": [
         "./dist/todo/application/index.d.ts"
