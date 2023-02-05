@@ -15,7 +15,7 @@ import {
   CreateTodoFixture,
   ListTodosFixture,
   UpdateTodoFixture,
-} from '../../../todos/fixures/todo.fixure';
+} from '../../fixures/fixures';
 import {
   TodoCollectionPresenter,
   TodoPresenter,
