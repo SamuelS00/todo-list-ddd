@@ -1,8 +1,6 @@
 import { UpdateTodoUseCase } from 'todo-list/todo/application';
+import { CreateTodoDto } from './create-todo.dto';
 
-export class UpdateTodoDto implements Omit<UpdateTodoUseCase.Input, 'id'> {
-  title: string;
-  priority?: number;
-  description?: string;
-  is_scratched?: boolean;
-}
+export class UpdateTodoDto
+  extends CreateTodoDto
+  implements Omit<UpdateTodoUseCase.Input, 'id'> {}
