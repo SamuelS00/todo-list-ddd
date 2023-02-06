@@ -49,8 +49,9 @@
     "build": "tsc -b ./tsconfig.json",
     "build:w": "tsc -b ./tsconfig.json -w",
     "cti": "cti",
-    "clean:tsc": "rm tsconfig.tsbuildinfo",
-    "cti:make": "sh ./cti.sh"
+    "cti:make": "sh ./cti.sh",
+    "migrate": "node -r ts-node/register/transpile-only ./src/@shared/infrastructure/sequelize/migrator-cli.ts",
+    "clean:tsc": "rm tsconfig.tsbuildinfo"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.59",
@@ -73,6 +74,7 @@
     "dotenv": "^16.0.3",
     "mysql2": "^3.0.1",
     "sequelize-typescript": "^2.1.5",
-    "sqlite3": "^5.1.4"
+    "sqlite3": "^5.1.4",
+    "umzug": "^3.2.1"
   }
 }
