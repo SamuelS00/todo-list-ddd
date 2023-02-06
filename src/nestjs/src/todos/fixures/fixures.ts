@@ -13,130 +13,6 @@ export class TodoFixture {
     ];
   }
 
-  static arrangeForCreate() {
-    const faker = Todo.fake()
-      .aTodo()
-      .withTitle('go to the bakery')
-      .withDescription('get croissant')
-      .withPriority(PriorityType.createMedium())
-      .build();
-
-    return [
-      {
-        send_data: {
-          title: faker.title,
-        },
-        expected: {
-          description: null,
-          priority: 2,
-          is_scratched: false,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          priority: 1,
-        },
-        expected: {
-          priority: 1,
-          description: null,
-          is_scratched: false,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          description: faker.description,
-        },
-        expected: {
-          description: faker.description,
-          is_scratched: false,
-          priority: 2,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          is_scratched: false,
-        },
-        expected: {
-          description: null,
-          priority: 2,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          priority: faker.priority.code,
-          description: faker.description,
-          is_scratched: true,
-        },
-        expected: {},
-      },
-    ];
-  }
-
-  static arrangeForUpdate() {
-    const faker = Todo.fake()
-      .aTodo()
-      .withTitle('go to the bakery')
-      .withDescription('get croissant')
-      .withPriority(PriorityType.createMedium())
-      .build();
-
-    // if the description is not sent for the update,
-    // the current description of the entity is maintained.
-    return [
-      {
-        send_data: {
-          title: faker.title,
-        },
-        expected: {
-          is_scratched: false,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          priority: 3,
-        },
-        expected: {
-          priority: 3,
-          is_scratched: false,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          description: faker.description,
-        },
-        expected: {
-          is_scratched: false,
-          description: faker.description,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          is_scratched: false,
-          priority: 2,
-        },
-        expected: {
-          priority: 2,
-        },
-      },
-      {
-        send_data: {
-          title: faker.title,
-          priority: faker.priority.code,
-          description: faker.description,
-          is_scratched: true,
-        },
-        expected: {},
-      },
-    ];
-  }
-
   static arrangeForSave() {
     const faker = Todo.fake()
       .aTodo()
@@ -286,7 +162,7 @@ export class TodoFixture {
           message: [
             'title should not be empty',
             'title must be a string',
-            'priority must be a number',
+            'priority must be a number conforming to the specified constraints',
           ],
           ...defaultExpected,
         },
@@ -320,6 +196,79 @@ export class TodoFixture {
         },
       },
     ];
+  }
+}
+
+export class CreateTodoFixture {
+  static keysInResponse() {
+    return TodoFixture.keysInResponse();
+  }
+
+  static arrangeForSave() {
+    const faker = Todo.fake()
+      .aTodo()
+      .withTitle('go to the bakery')
+      .withDescription('get croissant')
+      .withPriority(PriorityType.createMedium())
+      .build();
+
+    return [
+      {
+        send_data: {
+          title: faker.title,
+        },
+        expected: {
+          description: null,
+          priority: 2,
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: 1,
+        },
+        expected: {
+          priority: 1,
+          description: null,
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          description: faker.description,
+        },
+        expected: {
+          description: faker.description,
+          is_scratched: false,
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          is_scratched: false,
+        },
+        expected: {
+          description: null,
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: faker.priority.code,
+          description: faker.description,
+          is_scratched: true,
+        },
+        expected: {},
+      },
+    ];
+  }
+
+  static arrangeInvalidRequest() {
+    return TodoFixture.arrangeInvalidRequest();
   }
 
   static arrangeForEntityValidationError() {
@@ -409,6 +358,8 @@ export class TodoFixture {
             'title must be longer than or equal to 3 characters',
             'title must be shorter than or equal to 40 characters',
             'description must be a string',
+            'description must be longer than or equal to 10 characters',
+            'description must be shorter than or equal to 255 characters',
           ],
           ...defaultExpected,
         },
@@ -449,31 +400,70 @@ export class TodoFixture {
   }
 }
 
-export class CreateTodoFixture {
-  static keysInResponse() {
-    return TodoFixture.keysInResponse();
-  }
-
-  static arrangeForSave() {
-    return TodoFixture.arrangeForCreate();
-  }
-
-  static arrangeInvalidRequest() {
-    return TodoFixture.arrangeInvalidRequest();
-  }
-
-  static arrangeForEntityValidationError() {
-    return TodoFixture.arrangeForEntityValidationError();
-  }
-}
-
+// TODO: improve entry
 export class UpdateTodoFixture {
   static keysInResponse() {
     return TodoFixture.keysInResponse();
   }
 
   static arrangeForSave() {
-    return TodoFixture.arrangeForUpdate();
+    const faker = Todo.fake()
+      .aTodo()
+      .withTitle('go to the bakery')
+      .withDescription('get croissant')
+      .withPriority(PriorityType.createMedium())
+      .build();
+
+    // if the description is not sent for the update,
+    // the current description of the entity is maintained.
+    return [
+      {
+        send_data: {
+          title: faker.title,
+        },
+        expected: {
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: 3,
+        },
+        expected: {
+          is_scratched: false,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          description: faker.description,
+        },
+        expected: {
+          is_scratched: false,
+          description: faker.description,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          is_scratched: false,
+          priority: 2,
+        },
+        expected: {
+          priority: 2,
+        },
+      },
+      {
+        send_data: {
+          title: faker.title,
+          priority: faker.priority.code,
+          description: faker.description,
+          is_scratched: true,
+        },
+        expected: {},
+      },
+    ];
   }
 
   static arrangeInvalidRequest() {
@@ -481,14 +471,96 @@ export class UpdateTodoFixture {
   }
 
   static arrangeForEntityValidationError() {
-    const removeTests = ['IS_SCRATCHED EMPTY', 'IS_SCRATCHED NOT A BOOLEAN'];
-    const tests = TodoFixture.arrangeForEntityValidationError();
+    const faker = Todo.fake().aTodo();
 
-    return tests.filter((test) => {
-      if (!removeTests.includes(test.label)) {
-        return test;
-      }
-    });
+    const defaultExpected = {
+      statusCode: 422,
+      error: 'Unprocessable Entity',
+    };
+
+    return [
+      {
+        label: 'EMPTY',
+        send_data: {},
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be a string',
+            'title must be longer than or equal to 3 characters',
+            'title must be shorter than or equal to 40 characters',
+          ],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'TITLE UNDEFINED',
+        send_data: {
+          title: faker.withInvalidTitleEmpty(undefined).title,
+        },
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be a string',
+            'title must be longer than or equal to 3 characters',
+            'title must be shorter than or equal to 40 characters',
+          ],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'TITLE NULL',
+        send_data: {
+          title: faker.withInvalidTitleEmpty(null).title,
+        },
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be a string',
+            'title must be longer than or equal to 3 characters',
+            'title must be shorter than or equal to 40 characters',
+          ],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'TITLE EMPTY',
+        send_data: {
+          title: faker.withInvalidTitleEmpty('').title,
+        },
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be longer than or equal to 3 characters',
+          ],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'TITLE TOO LONG',
+        send_data: {
+          title: faker.withInvalidTitleTooLong().title,
+        },
+        expected: {
+          message: ['title must be shorter than or equal to 40 characters'],
+          ...defaultExpected,
+        },
+      },
+      {
+        label: 'DESCRIPTION NOT A STRING',
+        send_data: {
+          description: faker.withInvalidDescriptionNotAString().description,
+        },
+        expected: {
+          message: [
+            'title should not be empty',
+            'title must be a string',
+            'title must be longer than or equal to 3 characters',
+            'title must be shorter than or equal to 40 characters',
+          ],
+          ...defaultExpected,
+        },
+      },
+    ];
   }
 }
 
