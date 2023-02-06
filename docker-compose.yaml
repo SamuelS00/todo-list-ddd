@@ -1,0 +1,38 @@
+version: "2.3.3"
+services:
+  db:
+    image: mysql:5.7
+    container_name: todo-list-db
+    profiles:
+      - dev
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo_list
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql:delegated
+    ports:
+      - "3306:3306"
+
+  db_test:
+    image: mysql:5.7
+    container_name: todo-list-db-test
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo_list_test
+    ports:
+      - "3307:3306"
+    tmpfs:
+      - /var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
+    
+  app:
+    build: .
+    container_name: todo-list-ddd-ts-app
+    volumes:
+      - .:/home/node/app
+    ports:
+      - "3000:3000"
+    links:
+      - db
+      - db_test
