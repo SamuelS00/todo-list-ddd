@@ -49,10 +49,10 @@ describe('DatabaseModule Unit Tests', () => {
   describe('mysql connection', () => {
     const connOptions = {
       DB_VENDOR: 'mysql',
-      DB_HOST: 'localhost',
+      DB_HOST: 'db_test',
       DB_DATABASE: 'todo_list_test',
       DB_USERNAME: 'root',
-      DB_PASSWORD: 'root1234',
+      DB_PASSWORD: 'root',
       DB_PORT: 3306,
       DB_LOGGING: true,
       DB_AUTO_LOAD_MODELS: true,
