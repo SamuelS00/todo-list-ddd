@@ -1,4 +1,8 @@
-/node_modules
-/dist
-/.env
 __coverage
+.docker/dbdata
+.docker/zsh/history/.zsh_history
+.history/
+dist/
+docker-compose.override.yaml
+node_modules/
+tsconfig.tsbuildinfo
