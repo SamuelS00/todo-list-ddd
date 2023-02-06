@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/no-var-requires */
+
 import { UniqueEntityId } from '../../../../@shared/domain/value-object/unique-entity-id.vo'
 import { EntityValidationError } from '../../../../@shared/domain/errors/invalid-validation-error'
 import { LoadEntityError } from '../../../../@shared/domain/errors/load-entity.error'
@@ -8,11 +10,12 @@ import { NotFoundError } from '../../../../@shared/domain/errors/not-found-error
 import { Todo } from '../../../../todo/domain/entities/todo'
 import { TodoRepository } from '../../../../todo/domain/repository'
 import { Model, Column, DataType, PrimaryKey, Table } from 'sequelize-typescript'
-import { Op } from 'sequelize'
+import { literal, Op } from 'sequelize'
 import { SequelizeModelFactory } from '../../../../@shared/infrastructure/sequelize/sequelize-model.factory'
 import { DataGenerator } from '../../../../@shared/infrastructure/testing/helpers/data-generator'
 import { PriorityType } from '../../../../todo/domain/entities/priority-type.vo'
 import { PriorityError } from '../../../../todo/domain/errors/priority-type.error'
+import { SortDirection } from '../../../../@shared/domain'
 
 export namespace TodoSequelize {
   interface TodosModelProperties {
@@ -87,11 +90,20 @@ export namespace TodoSequelize {
 
   export class TodoSequelizeRepository implements TodoRepository.Repository {
     sortableFields: string[] = ['title', 'created_at']
+    orderBy = {
+      mysql: {
+        title: (sort_dir: SortDirection) => literal(`binary title ${sort_dir}`)
+      }
+    }
 
     constructor (private readonly todoModel: typeof TodoModel) {}
 
-    async exists (name: string): Promise<boolean> {
-      throw new Error('Method not implemented.')
+    // TODO: refactor
+
+    async exists (title: string): Promise<boolean> {
+      const model = await this.todoModel.findOne({ where: { title } })
+
+      return model !== null
     }
 
     async search (
@@ -105,7 +117,7 @@ export namespace TodoSequelize {
           where: { title: { [Op.like]: `%${props.filter}%` } }
         }),
         ...((props.sort != null) && this.sortableFields.includes(props.sort)
-          ? { order: [[props.sort, props.sort_dir as string]] }
+          ? { order: this.formatSort(props.sort, props.sort_dir as SortDirection) }
           : { order: [['created_at', 'DESC']] }),
         offset,
         limit
@@ -121,6 +133,20 @@ export namespace TodoSequelize {
         sort_dir: props.sort_dir
       })
     }
+
+    private formatSort (sort: string, sort_dir: SortDirection): any {
+      const dialect = this.todoModel?.sequelize?.getDialect()
+
+      if (
+        typeof dialect === 'string' &&
+        (Boolean(this.orderBy[dialect])) &&
+        (Boolean(this.orderBy[dialect][sort]))) {
+        return this.orderBy[dialect][sort](sort_dir)
+      }
+      return [[sort, sort_dir]]
+    }
+
+    //
 
     async insert (entity: Todo): Promise<void> {
       await this.todoModel.create(entity.toJSON())
