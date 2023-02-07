@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import { configTest } from '../../config'
+import { configTest } from '../../config/config'
 
 const sequelizeOptions: SequelizeOptions = {
   dialect: configTest.db.vendor,
