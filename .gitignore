@@ -6,3 +6,4 @@ dist/
 docker-compose.override.yaml
 node_modules/
 tsconfig.tsbuildinfo
+tmp/
