@@ -28,7 +28,7 @@ services:
     
   app:
     build: .
-    container_name: todo-list-ddd-ts-app
+    container_name: todo-list-app
     volumes:
       - .:/home/node/app
     ports:
