@@ -56,7 +56,7 @@ describe('ListTodosUseCase Unit Tests', () => {
     })
   })
 
-  it('should returns output using empty input with categories ordered by created_at', async () => {
+  it('should returns output using empty input with todos ordered by created_at', async () => {
     const items: Todo[] = [
       new Todo({
         title: 'Buy a Book',

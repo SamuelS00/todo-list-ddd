@@ -33,7 +33,6 @@ export function startApp({
         await sequelize.sync({ force: true });
       }
     } catch (e) {
-      console.log(e);
       throw e;
     }
 

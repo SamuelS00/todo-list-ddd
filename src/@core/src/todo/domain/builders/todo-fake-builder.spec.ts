@@ -77,8 +77,8 @@ describe('TodoFakeBuilder Unit Tests', () => {
 
     it('should pass an index to title factory', () => {
       faker.withTitle((index) => `test title ${index}`)
-      const category = faker.build()
-      expect(category.title).toBe('test title 0')
+      const todo = faker.build()
+      expect(todo.title).toBe('test title 0')
 
       const fakerMany = TodoFakeBuilder.theTodos(2)
       fakerMany.withTitle((index) => `test title ${index}`)

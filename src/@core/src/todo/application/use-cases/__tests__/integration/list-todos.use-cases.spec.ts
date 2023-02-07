@@ -16,7 +16,7 @@ describe('ListTodosUseCase Integration Tests', () => {
     useCase = new ListTodosUseCase.UseCase(repository)
   })
 
-  it('should returns output using empty input with categories ordered by created_at', async () => {
+  it('should returns output using empty input with todos ordered by created_at', async () => {
     const faker = Todo.fake().theTodos(2)
 
     const entities = faker
