@@ -1,5 +1,5 @@
 // TODO: understand the problem with the export
-import { migrator } from 'todo-list/@shared/infrastructure';
+import { migrator } from '../../../../@core/dist/@shared/infrastructure';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { getConnectionToken } from '@nestjs/sequelize';

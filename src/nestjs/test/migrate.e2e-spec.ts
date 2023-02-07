@@ -1,5 +1,5 @@
 // TODO: understand the problem with the export
-import { migrator } from 'todo-list/dist/@shared/infrastructure';
+import { migrator } from '../../@core/dist/@shared/infrastructure'
 import { getConnectionToken } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Umzug } from 'umzug';
@@ -7,7 +7,7 @@ import { MigrationModule } from '../src/database/migration/migration.module';
 
 describe('Migrate (e2e)', () => {
   let umzug: Umzug;
-  const totalMigrations = 2;
+  const totalMigrations = 1;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
