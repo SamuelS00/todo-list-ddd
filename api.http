@@ -1,0 +1,33 @@
+### List ###
+GET http://localhost:3000/todos
+
+### Get a todo ###
+GET http://localhost:3000/todos/5ac94973-8d85-4a0e-a8c4-43ca585e3fdc
+
+### try to get a todo with invalid id ###
+GET http://localhost:3000/fake-id
+
+### Create todo ###
+POST http://localhost:3000/todos
+Content-Type: application/json
+{
+  "title": "supermarket 1"
+}
+
+### Update todo ###
+POST http://localhost:3000/todos/5ac94973-8d85-4a0e-a8c4-43ca585e3fdc
+Content-Type: application/json
+{
+  "title": "supermarket1111"
+}
+
+### Update error ###
+POST http://localhost:3000/todos/fake-id
+Content-Type: application/json
+{
+  "title": "supermarket1111"
+}
+
+### Delete todo ###
+DELETE http://localhost:3000/todos/5ac94973-8d85-4a0e-a8c4-43ca585e3fdc
+Content-Type: application/json
